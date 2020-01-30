@@ -1,0 +1,57 @@
+<% include ../common/header %>
+<link rel="stylesheet" href="css/comment.css">
+<% include ../common/nav %>
+<% include ../common/banner %>
+<div class="container">
+    <div class="row">
+        <ol class="breadcrumb shadow-frame">
+            你现在正在浏览：
+            <li><a href="/">首页</a></li>
+            <li class="active">社区服务</li>
+        </ol>
+    </div>
+
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">留言：</label>
+                <div class="col-sm-11">
+                    <textarea class="form-control" rows="5" placeholder="请输入内容"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12" style="text-align: right;">
+                    <button type="submit" class="btn btn-success submit">提交留言</button>
+                </div>
+            </div>
+        </div>
+
+        <!--评论区域 end-->
+        <!--回复区域 begin-->
+        <div class="comment-show">
+            <div class="comment-show-con clearfix">
+                <div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div>
+                <div class="comment-show-con-list pull-left clearfix">
+                    <div class="pl-text clearfix">
+                        <span class="comment-size-name">张三 : </span>
+                        <span class="my-pl-con">&nbsp;来啊 造作啊!</span>
+                    </div>
+                    <div class="date-dz">
+                        <span class="date-dz-left pull-left comment-time">2017-5-2 11:11:39</span>
+                        <div class="date-dz-right pull-right comment-pl-block">
+                            <a href="javascript:;" class="removeBlock">删除</a>
+                            <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>
+                            <span class="pull-left date-dz-line">|</span>
+                            <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i
+                                    class="z-num">666</i>)</a>
+                        </div>
+                    </div>
+                    <div class="hf-list-con"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.flexText.js"></script>
+<script src="js/web/community.js"></script>
+<% include ../common/footer %>

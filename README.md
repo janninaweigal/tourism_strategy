@@ -1,5 +1,5 @@
 # 旅游攻略
-用koa2 + ejs + mysql + JWT 开发旅游攻略Api
+用koa2 + ejs + mysql + JWT 开发畅游攻略平台
 
 # 配置JWT
 https://segmentfault.com/a/1190000019338195

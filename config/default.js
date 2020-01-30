@@ -1,6 +1,6 @@
 const config = {
     //启动端口
-    port: 8099,
+    port: 3000,
     HOST: 'http://localhost:',
     //数据库配置
     database: {

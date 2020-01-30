@@ -47,7 +47,7 @@ app.use(require('./utils/handle.js'))
 //路由权限控制 除了path里的路径不需要验证token 其他都要
 app.use(koaJwt({
         secret: constant.secret
-    }).unless({path: [/^\/login/, /^\/register/, /^\/home/]})
+    }).unless({path: [/^\/login/, /^\/register/,/^\/exit/,/^\/$/,/^\/api/,/^[\/a-zA-Z]\S+Page$/,/^\/css/,/^\/js/,/^\/images/,/^\/favicon.ico/]})
 );
 //---------------路由文件
 //首页
@@ -58,9 +58,23 @@ app.use(require('./routers/login.js').routes())
 app.use(require('./routers/register.js').routes())
 //退出登录
 app.use(require('./routers/exit.js').routes())
+//测试api
+app.use(require('./routers/api.js').routes())
+//旅行必备
+app.use(require('./routers/pages/goods.js').routes())
+//攻略信息
+app.use(require('./routers/pages/strategy.js').routes())
+//旅游景点
+app.use(require('./routers/pages/touristSpot.js').routes())
+//订酒店
+app.use(require('./routers/pages/hotel.js').routes())
+//社区服务
+app.use(require('./routers/pages/community.js').routes())
+//我的
+app.use(require('./routers/pages/personal.js').routes())
 
 //监听端口
 app.use(router.routes()).use(router.allowedMethods())
 app.listen(config.port) 
 
-console.log(`${config.HOST}${config.port}`+'/home')
+console.log(`${config.HOST}${config.port}`)

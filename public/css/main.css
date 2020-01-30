@@ -1,0 +1,109 @@
+/*公共样式*/
+h1, h2, h3, h4, h5, h6 {
+    margin: 10px 0;
+    font-weight: bold;
+    line-height: 20px;
+}
+table tr th,table tr td{ text-align:center;vertical-align: middle;}
+.ellipsisText{overflow: hidden;white-space: nowrap;text-overflow: ellipsis}
+.bck{background: url("../images/bck.png") repeat center center;}
+.bck img:hover{
+    -webkit-transform: translateY(-5px);
+    -moz-transform: translateY(-5px);
+    transform: translateY(-5px);
+}
+.line{ border-bottom: 2px solid #ffc900;padding:10px 0px;margin-top: 20px;margin-bottom: 20px;}
+.margin-top-70{margin-top:70px;}
+.margin-top-15{margin-top:15px;}
+.shadow-frame{
+    margin-bottom: 15px;
+    background-color: #FFF;
+    border: 10px solid #FFF;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+a:hover:not(.btn), a:active:not(.btn), a:focus:not(.btn) {
+    color: #9E0000;
+    text-decoration: none;
+}
+.text-error {
+    color: #b94a48;
+}
+/*导航*/
+ul.navbar-nav li:hover{
+    background-color: #cccccc;
+}
+ul.navbar-nav li:hover span{
+    color:#000;
+}
+.navActive{
+    background-color: #345e8c;
+}
+.navActive span{
+    color:#fff;
+}
+/*轮播图*/
+.carousel-indicators {
+    bottom:0px;
+}
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    background: #333;
+    background: rgba(0,0,0,0.75);
+}
+.carousel-caption h4,.carousel-caption p {
+    text-align:left;
+}
+.carousel-caption h4 {
+    color:#337ab7;
+}
+/* 确认订单 */
+.addressBox{
+    display:flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+.itemBox{
+    border-bottom:1px solid #337ab7;
+    padding:10px 0px;
+}
+.itemBox:last-child{
+    border-bottom:none;
+}
+.addressBox .nowrap{
+    white-space: nowrap;
+}
+.address_middle{
+    padding-right:10px;
+    width:100%;
+    border-right:2px solid #337ab7;
+}
+.rightEdit{
+    margin-left:10px;
+}
+/*页脚*/
+.footer{
+    /* position: fixed;
+    left:0px;
+    bottom:0px;
+    width:100%; */
+    width:100%;
+    margin-top:48px;
+    padding: 40px 20px;
+    color: #C0E1FF;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .4), 0 0 30px rgba(0, 0, 0, .075);
+    background: #325B87;
+}
+/*向上箭头*/
+.xiangshang{width:48px;height: 43px;display: block;background: url("../images/fanhui.png") no-repeat;position: fixed;bottom: 80px;right: 30px;cursor: pointer;}
+.xiangshang:hover{background: url("../images/fanhui1.png") no-repeat;}
+.xiaoshou li a{cursor:pointer;}
+.xiaoshou li a:hover{color: red;}
