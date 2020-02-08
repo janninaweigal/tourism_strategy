@@ -5,7 +5,7 @@ var userModel = require('../lib/mysql.js');
 router.post('/register', async(ctx, next) => {
     const body=ctx.request.body
     const username = body.username
-    const password =body.password
+    const password = body.password
     const email =body.email
     let result={
         flag:false,

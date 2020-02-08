@@ -47,7 +47,7 @@ app.use(require('./utils/handle.js'))
 //路由权限控制 除了path里的路径不需要验证token 其他都要
 app.use(koaJwt({
         secret: constant.secret
-    }).unless({path: [/^\/login/, /^\/register/,/^\/exit/,/^\/$/,/^\/api/,/^[\/a-zA-Z]\S+Page$/,/^\/css/,/^\/js/,/^\/images/,/^\/favicon.ico/]})
+    }).unless({path: [/^\/admin\/login/, /^\/register/,/^\/exit/,/^\/$/,/^\/api/,/^[\/a-zA-Z]\S+Page$/,/^\/css/,/^\/js/,/^\/json/,/^\/images/,/^\/favicon.ico/]})
 );
 //---------------路由文件
 //首页
@@ -72,6 +72,12 @@ app.use(require('./routers/pages/hotel.js').routes())
 app.use(require('./routers/pages/community.js').routes())
 //我的
 app.use(require('./routers/pages/personal.js').routes())
+//数据统计
+app.use(require('./routers/statis.js').routes())
+//用户
+app.use(require('./routers/user.js').routes())
+// 火车票
+app.use(require('./routers/pages/train.js').routes())
 
 //监听端口
 app.use(router.routes()).use(router.allowedMethods())

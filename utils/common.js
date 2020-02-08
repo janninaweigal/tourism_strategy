@@ -2,6 +2,8 @@ const secret = require('../constant/index.js').secret
 const footers = require('../json/footers');
 const md5 = require('md5')
 const jwt = require("jsonwebtoken");
+const fs = require('fs');
+const moment=require('moment')
 /**
  * 加密密码
  * @param {*} password 
@@ -14,10 +16,47 @@ export function getEncodePassword(password) {
  * @param {*} userInfo 
  */
 export function generateToken(userInfo) {
-    const token = jwt.sign(userInfo, secret, { expiresIn:  '3h' });
+    const token = jwt.sign(userInfo, secret, { expiresIn:  '24h' });
     return token;
 }
+/**
+ * 上传图片
+ * @param {*} 图片链接 
+ * @param {*} 是否 
+ */
+export async function writePhotoFile(BookPhoto,Name) {
+    let dataBuffer = photoToBase64(BookPhoto);
+    let upload = await new Promise((reslove,reject)=>{
+        fs.writeFile('./public/' + Name, dataBuffer, err => { 
+            if (err) {
+                reject(false)
+                throw err;
+            };
+            reslove(true)
+        });            
+    })
+    return upload;
+}
 
+export function photoToBase64(BookPhoto){
+    let base64Data = BookPhoto.replace(/^data:image\/\w+;base64,/, "");
+    let dataBuffer = new Buffer(base64Data, 'base64');
+    return dataBuffer;
+}
+/**
+ * 得到文件名
+ */
+export function getFileName(){
+    const fileName=(moment().format('YYYYMMDD-HHmmss')).toString() + '-' +1000*(Math.random().toFixed(2))
+    return ['images/',fileName,'.png'].join('');
+}
+/**
+ * 格式时间
+ * @param {*} format 
+ */
+export function formatTime(time,format){
+    return moment(time).format(format)
+}
 /**
  * 切换导航
  * @param {*} name 
@@ -48,11 +87,6 @@ export function switchNav(router) {
             name:'社区服务',
             active:false,
             router:'/communityPage'
-        },
-        {
-            name:'我的',
-            active:false,
-            router:'/personalPage'
         }
     ]
     // 如果router有值，则修改成激活

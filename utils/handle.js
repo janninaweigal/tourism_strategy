@@ -6,8 +6,8 @@ const handler = async (ctx, next) => {
   ctx.success = success(ctx);
   ctx.error = error(ctx);
   // 处理头信息
-  if (ctx.header && ctx.header.authorization) {
-    const parts = ctx.header.authorization.split(' ');
+  if (ctx.header && ctx.header.Authorization) {
+    const parts = ctx.header.Authorization.split(' ');
     if (parts.length === 2) {
       //取出token
       const scheme = parts[0];

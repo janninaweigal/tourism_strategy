@@ -3,7 +3,7 @@ export function success(ctx){
     return (data, msg = '请求成功') => {
         ctx.set('Content-Type', 'application/json');
         ctx.body = {
-            code: '1',
+            code: 1,
             data,
             msg
         }

@@ -142,7 +142,7 @@ $(function () {
         var password=$('#upass').val();
         if(username&&password){
             $.ajax({
-				url: "/login",
+				url: "/admin/login",
                 type: 'POST',
                 data:{
                     username,

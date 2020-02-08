@@ -20,6 +20,30 @@ https://segmentfault.com/a/1190000019338195
 * 7.index是程序主文件，定义接口，数据库接口，引用模块等<br>
 * 8.package.json项目的配置文件，包括项目名，作者，依赖，模块等<br>
 
+# koa-multer接收文件并保存
+
+```
+const multer = require('koa-multer');
+export function handleUpload(){
+    const storage = multer.diskStorage({
+        destination (req, file, cb) {
+            // 设置文件的存储目录，需提前创建
+            cb(null, '../public/images')
+        },
+        filename (req, file, cb) {
+            // 文件的后缀名
+            const extension = file.originalname.split(".");
+            cb(null, 'img-' + Date.now() + extension);
+        }
+    })
+    return multer({ storage: storage })
+}
+
+router.post('upload',upload.single('file'),async (ctx) => {
+  console.log(ctx.req.file);
+  ctx.body = ctx.request.body;
+});
+```
 # es6 -> es5 
 npm install --save-dev babel-preset-env babel-cli
 *创建.babelrc文件
