@@ -1,0 +1,90 @@
+<div class="container" style="margin-bottom:48px">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <img src="<%= goodsDetail.Photo %>" width="100%"/>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <h4><%= goodsDetail.Name %></h4>
+            <p>
+                <% if (goodsDetail.Type==1) { %>
+                    <span class="label label-danger">自营</span>
+                <% } else{ %>
+                    <span class="label label-danger">非自营</span>
+                <% } %>
+            </p>
+            <p>描述：<%= goodsDetail.Detail %></p>
+            <hr/>
+            <p>
+                物品名称:<a href="javascript:void(0)"><%= goodsDetail.Name||'无名氏' %></a>&nbsp;&nbsp;
+                创建时间:<%= moment(goodsDetail.CreateTime).format('YYYY-MM-DD HH:mm:ss') %>
+            </p>
+            <div class="alert alert-info" role="alert">
+                物品价格：
+                <h3 class="text-danger Price"><span class="glyphicon glyphicon-yen"></span><%= goodsDetail.Price %></h3>
+            </div>
+            <div class="input-group" style="margin:10px 0px 20px 0px">
+                <input type="text" onkeypress="return event.keyCode>=48&&event.keyCode<=57" value="1" placeholder="请输入数量" maxlength="<%= goodsDetail.Num.length %>" class="form-control">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default addQuantity" aria-label="Bold">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button type="button" class="btn btn-default reduceQuantity" aria-label="Bold">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </div>
+            </div>
+            <p><h3 class="text-primary text-right">总价：<mark class="totalPrice"><%= goodsDetail.Price %></mark></h3></p>
+            <p class="text-right margin-top-15">
+                <button type="button" class="btn btn-danger btn-lg alipay" style="padding-left:40px;padding-right:40px;">购买&nbsp;<span class="glyphicon glyphicon-phone" style="top:2px"></span></button>
+            </p>
+        </div>
+    </div>
+    <div class="row margin-top-15">
+        <div class="col-md-12 col-sm-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#detail" aria-controls="home" role="tab" data-toggle="tab">物品详情</a></li>
+                <li role="presentation"><a href="#comment" aria-controls="profile" role="tab" data-toggle="tab">物品评论</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="detail">
+                    <p class="text-success margin-top-15">所属类别：
+                        <% if (goodsDetail.Type==1) { %>
+                            > 自营
+                        <% } else { %>
+                            > 非自营
+                        <% } %>
+                    </p>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="comment">
+                    <textarea class="form-control margin-top-15" placeholder="说点什么把..." rows="3"></textarea>
+                    <div class="text-right margin-top-15">
+                        <button type="button" class="btn btn-info sendComment">发送</button>
+                    </div>
+                    
+                    <% if (comments.length!=0) { %>
+                        <% comments.forEach(function(item,index){ %>
+                            <div class="media">
+                                <div class="media-left">
+                                    <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>" style="width: 64px; height: 64px;">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><%= item.Username %></h4>
+                                    <%= item.Content %>
+                                    <div class="text-right">发表于：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></div>
+                                </div>
+                            </div>
+                            <% if (comments.length-1!=index) { %>
+                                <hr>
+                            <% } %>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="lead">暂无<mark>评论</mark></p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

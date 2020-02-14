@@ -2,8 +2,9 @@ require('babel-register')
 const koa = require("koa");   //node框架
 const path = require("path");
 const ejs = require("ejs");   //模板引擎
+const koaBody = require('koa-body');
 const koaJwt = require("koa-jwt");
-const bodyParser = require("koa-bodyparser"); //表单解析中间件
+// const bodyParser = require("koa-bodyparser"); //表单解析中间件
 const session = require("koa-session-minimal");   //处理数据库的中间件
 const MysqlStore = require("koa-mysql-session");  //处理数据库的中间件
 const config = require('./config/default.js');    //引入默认文件
@@ -37,10 +38,17 @@ app.use(views(path.join(__dirname, './views'),{
 }))
 
 //使用表单解析中间件
-app.use(bodyParser({
-    "formLimit":"5mb",
-    "jsonLimit":"5mb",
-    "textLimit":"5mb"
+// app.use(bodyParser({
+//     "formLimit":"5mb",
+//     "jsonLimit":"5mb",
+//     "textLimit":"5mb"
+// }));
+// koa-body与koa-bodyparser一定不要同时使用！会报错！
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 200*1024*1024   // 设置上传文件大小最大限制，默认2M
+    }
 }));
 //错误
 app.use(require('./utils/handle.js'))
@@ -62,12 +70,16 @@ app.use(require('./routers/exit.js').routes())
 app.use(require('./routers/api.js').routes())
 //旅行必备
 app.use(require('./routers/pages/goods.js').routes())
+//评论
+app.use(require('./routers/pages/comment.js').routes())
 //攻略信息
 app.use(require('./routers/pages/strategy.js').routes())
 //旅游景点
 app.use(require('./routers/pages/touristSpot.js').routes())
 //订酒店
 app.use(require('./routers/pages/hotel.js').routes())
+//酒店房间
+app.use(require('./routers/pages/hotelRoom.js').routes())
 //社区服务
 app.use(require('./routers/pages/community.js').routes())
 //我的
@@ -78,6 +90,10 @@ app.use(require('./routers/statis.js').routes())
 app.use(require('./routers/user.js').routes())
 // 火车票
 app.use(require('./routers/pages/train.js').routes())
+// 支付相关接口
+app.use(require('./routers/aliPay.js').routes())
+// 关于订单
+app.use(require('./routers/order.js').routes())
 
 //监听端口
 app.use(router.routes()).use(router.allowedMethods())

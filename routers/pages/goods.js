@@ -4,14 +4,51 @@ const result = require('../../json/result');
 import {commonJson} from '../../utils/common';
 import { writePhotoFile,getFileName} from '../../utils/common'
 router.get('/goodsPage', async(ctx, next) => {
-    const result = commonJson(ctx)
+    let result = commonJson(ctx)
+    const query=ctx.request.query
+    const pageNo = parseInt(query.pageNo||1)
+    result.goods = {
+        list: [],
+        count: 0,
+        name:'goodsPage',
+        pageNo:pageNo
+    }
+    const searchData = {
+        pageNo:pageNo,
+        pageSize:8
+    }
+    await userModel.query("select count(1) count from goods where Status!=3").then(res=>{
+        result.goods.count = res[0].count
+    })
+    await userModel.query(`select * from goods where Status!=3 limit ${(searchData.pageNo-1)*searchData.pageSize},${searchData.pageSize}`).then(res=>{
+        result.goods.list = res
+    })
     await ctx.render('pages/goods',result)
+})
+
+
+// 商品详情
+router.get('/detailPage',async(ctx,next)=>{
+    const Id=ctx.request.query.id
+    let result = commonJson(ctx)
+    result.goodsDetail = {}
+    result.comments = []
+    if(Id){
+        await userModel.findGoodsById(Id).then(res=>{
+            result.goodsDetail=res[0];
+        })
+        await userModel.selectCommentByGoodsId(Id).then(res=>{
+            result.comments=res
+        })
+    }
+    result.session.type = 1
+    await ctx.render('pages/goodsDetail',result)
 })
 
 router.post('/goods/list', async(ctx, next) => {
     const response = Object.assign({},result)
     const searchData = ctx.request.body
-    await userModel.getGoodsLength(searchData.globalName,searchData.isAdmin).then(res=>{
+    await userModel.getGoodsLength(searchData.globalName).then(res=>{
         response.total = res[0].count
     })
     await userModel.getGoodsList(searchData).then(res=>{
@@ -46,7 +83,7 @@ router.post('/goods/insert', async(ctx, next) => {
         Photo = 'images/default.png'
     }
     if(response.flag){
-        await userModel.insertGoods([Name,Photo,Type,Price,Status,Num]).then(res=>{
+        await userModel.insertGoods([Name,Photo,Type,Price,Status,Num,params.Detail]).then(res=>{
             response.data = res;
         }).catch(error=>{
             response.flag = false;
@@ -94,11 +131,11 @@ router.put('/goods/update', async(ctx, next) => {
         }
     }
     if(response.flag){
-        await userModel.updateGoods([Name,Photo,Type,Price,Status,Num,Id]).then(res=>{
+        await userModel.updateGoods([Name,Photo,Type,Price,Status,Num,params.Detail,Id]).then(res=>{
             response.data = res
-        }).catch(()=>{
+        }).catch(error=>{
             response.flag = false;
-            response.msg = '编辑失败'
+            response.msg = '编辑失败,原因：'+error
         })
     }
     response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)

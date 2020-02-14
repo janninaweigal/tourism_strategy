@@ -1,0 +1,47 @@
+<% include ../common/header %>
+<% include ../common/nav %>
+<% include ../common/banner %>
+
+<div class="container" style="margin-bottom:48px">
+
+    <div class="row">
+        <div class="page-header" style="text-align: center;">
+            <h1><%- strategyDetail.Title %></h1>
+            <p class="text-danger text-right">发表时间：<%= moment(strategyDetail.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+        </div>
+        <div class="well"><%- strategyDetail.Content %></div>
+    </div>
+
+    <div class="row" id="comment">
+        <div class="page-header text-info">
+            <h3>评论区</h3>
+        </div>
+        <textarea class="form-control margin-top-15" placeholder="说点什么把..." rows="3"></textarea>
+        <div class="text-right margin-top-15">
+            <button type="button" class="btn btn-info sendComment">发送</button>
+        </div>
+
+        <% if (comments.length!=0) { %>
+        <% comments.forEach(function(item,index){ %>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>"
+                    style="width: 64px; height: 64px;">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading"><%= item.Username %></h4>
+                <%= item.Content %>
+                <div class="text-right">发表于：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></div>
+            </div>
+        </div>
+        <% if (comments.length-1!=index) { %>
+        <hr>
+        <% } %>
+        <% }) %>
+        <% } else { %>
+        <p class="lead">暂无<mark>评论</mark></p>
+        <% } %>
+    </div>
+</div>
+
+<% include ../common/footer %>

@@ -15,7 +15,6 @@
   "devDependencies": {
     "ejs": "^2.5.7",
     "koa": "^2.4.1",
-    "koa-bodyparser": "^4.2.0",
     "koa-mysql-session": "0.0.2",
     "koa-router": "^7.3.0",
     "koa-session-minimal": "^3.0.4",
@@ -26,10 +25,12 @@
     "mysql": "^2.15.0"
   },
   "dependencies": {
+    "alipay-sdk": "^3.0.8",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "jsonwebtoken": "^8.5.1",
+    "koa-body": "^4.1.1",
     "koa-formidable": "^1.1.0",
     "koa-jwt": "^3.6.0"
   }

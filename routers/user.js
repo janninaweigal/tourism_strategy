@@ -48,7 +48,7 @@ router.post('/user/insert', async(ctx, next) => {
         avatar = 'images/default.png'
     }
     if(response.flag){
-        await userModel.insertUser([username,email,isAdmin,avatar]).then(res=>{
+        await userModel.insertUserInfo([username,avatar,email,isAdmin]).then(res=>{
             response.data = res;
         }).catch(()=>{
             response.flag = false;

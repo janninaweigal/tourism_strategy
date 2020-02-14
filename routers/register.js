@@ -1,6 +1,6 @@
 var router = require('koa-router')();
 var userModel = require('../lib/mysql.js');
-
+import {getEncodePassword} from '../utils/common.js'
 // post 注册
 router.post('/register', async(ctx, next) => {
     const body=ctx.request.body
@@ -21,10 +21,10 @@ router.post('/register', async(ctx, next) => {
     })
     if(flag){
         // 没有用户
-        await userModel.insertUser([username, getEncodePassword(password),email ]).then(res=>{
+        await userModel.register([username, getEncodePassword(password),email ]).then(res=>{
             ctx.session.id = res.insertId;
             ctx.session.username=username;
-            ctx.session.avatar = '/images/default.jpg';
+            ctx.session.avatar = 'images/default.png';
             ctx.session.email = email;
             ctx.session.IsAdmin = 0;
             result={

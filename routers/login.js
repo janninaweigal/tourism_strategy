@@ -46,5 +46,38 @@ router.post('/admin/login', async(ctx, next) => {
         ctx.error('请填写好用户名和密码！')
     }
 })
+router.post('/changePwd', async (ctx) => {
+    const oldPwd=ctx.request.body.oldPwd;
+    const pass=ctx.request.body.pass;
+    const checkPass=ctx.request.body.checkPass;
+    let response = {
+        flag:true,
+        msg:'修改成功'
+    }
+    if(pass!==checkPass){
+        response.flag = false
+        response.msg = '旧密码和确认密码不对'
+    }
+    await userModel.findUserById(ctx.session.id).then(result=>{
+        if(result.length==1){
+            if(result[0].Password!=getEncodePassword(oldPwd)){
+                response.flag = false
+                response.msg = '旧密码不对，修改失败'
+            }
+        }
+    }).catch(err => {
+        response.flag = false
+        response.msg = '出现错误！！原因：'+err
+    })
+    if(response.flag){
+        await userModel.changePwd([getEncodePassword(pass),ctx.session.id]).then(result=>{
+            
+        }).catch(err => {
+            response.flag = false
+            response.msg = '出现错误！！原因：'+err
+        })
+    }
+    response.flag?ctx.success({},response.msg):ctx.error(response.msg)
+ })
 
 module.exports = router

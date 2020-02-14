@@ -1,0 +1,49 @@
+<% if (goods.list.length!=0) { %>
+    <div class="row">
+        <% goods.list.forEach(function(item,index){ %>
+            <div class="col-sm-3 col-md-3">
+                <div class="thumbnail">
+                    <img src="<%= item.Photo %>" title="<%= item.Name %>" alt="<%= item.Name %>" width="100%">
+                    <div class="caption">
+                        <p>商品名称：<a href="/detailPage?id=<%= item.Id %>" title="<%= item.Name %>"><%= item.Name.length>7?item.Name.substring(0,7)+'...':item.Name %></a><br/>商品类型：<%- item.Type==1?"<span class='text-success'>自营</span><br/>":"<span class='text-danger'>非自营</span><br/>" -%>单价：<%= item.Price %>&nbsp;&nbsp;&nbsp;数量：<%= item.Num %><br/>描述：<%= item.Detail %><br/>创建时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                        <div class="text-right"><a href="/detailPage?id=<%= item.Id %>" class="btn btn-primary" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a></div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    <% if (goods.count>1) { %>
+        <nav class="text-center">
+            <ul class="pagination">
+                <% if (goods.pageNo==1) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= goods.pageNo==1?'javascript:void(0)':'/'+goods.name+'?pageNo='+(parseInt(goods.pageNo)-1)%>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <% for(var i=0;i<Math.ceil(goods.count/8);i++){ %>
+                    <% if ((i+1)==goods.pageNo) { %>
+                        <li class="active">
+                    <% }else{ %>
+                        <li>
+                    <% } %>
+                    <a href="<%= '/'+goods.name+'?pageNo='+ (i+1) %>"><%= i+1 %></a></li>
+                <% } %>
+                <% if (goods.pageNo==(goods.count-1)) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= goods.pageNo==(goods.count-1)?'javascript:void(0)':'/'+goods.name+'?pageNo='+(parseInt(goods.pageNo)+1)%>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    <% } %>
+<% } else { %>
+    <p class="lead"><mark>没有商品</mark></p>
+<% } %>

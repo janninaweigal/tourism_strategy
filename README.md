@@ -20,6 +20,12 @@ https://segmentfault.com/a/1190000019338195
 * 7.index是程序主文件，定义接口，数据库接口，引用模块等<br>
 * 8.package.json项目的配置文件，包括项目名，作者，依赖，模块等<br>
 
+# ajax请求接口
+
+headers:{
+  'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+},
+
 # koa-multer接收文件并保存
 
 ```

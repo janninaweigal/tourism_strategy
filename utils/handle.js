@@ -20,6 +20,7 @@ const handler = async (ctx, next) => {
             complete: true
           });
         } catch (error) {
+          console.log(error)
           ctx.error('请求失败，Authorization header token 不对')
         }
       }
@@ -27,6 +28,7 @@ const handler = async (ctx, next) => {
   }
   
   return next().catch(err => {
+    console.log(err)
     if (err.status === 401) {
       ctx.status = 401;
       ctx.error('登录过期，请重新登录')
