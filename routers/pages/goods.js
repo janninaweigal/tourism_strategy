@@ -11,16 +11,13 @@ router.get('/goodsPage', async(ctx, next) => {
         list: [],
         count: 0,
         name:'goodsPage',
-        pageNo:pageNo
-    }
-    const searchData = {
         pageNo:pageNo,
         pageSize:8
     }
     await userModel.query("select count(1) count from goods where Status!=3").then(res=>{
         result.goods.count = res[0].count
     })
-    await userModel.query(`select * from goods where Status!=3 limit ${(searchData.pageNo-1)*searchData.pageSize},${searchData.pageSize}`).then(res=>{
+    await userModel.query(`select * from goods where Status!=3 limit ${(result.goods.pageNo-1)*result.goods.pageSize},${result.goods.pageSize}`).then(res=>{
         result.goods.list = res
     })
     await ctx.render('pages/goods',result)

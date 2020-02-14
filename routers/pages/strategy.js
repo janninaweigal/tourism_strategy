@@ -10,22 +10,18 @@ router.get('/strategyPage', async(ctx, next) => {
         list: [],
         count: 0,
         name:'strategyPage',
-        pageNo:pageNo
-    }
-    const searchData = {
         pageNo:pageNo,
         pageSize:10
     }
     await userModel.query("select count(1) count from strategy_info").then(res=>{
         result.strategy.count = res[0].count
     })
-    await userModel.query(`select * from strategy_info limit ${(searchData.pageNo-1)*searchData.pageSize},${searchData.pageSize}`).then(res=>{
+    await userModel.query(`select * from strategy_info limit ${(result.strategy.pageNo-1)*result.strategy.pageSize},${result.strategy.pageSize}`).then(res=>{
         result.strategy.list = res.map(item=>{
             item.Pictures = JSON.parse(item.Pictures).pictures
         　　return item
         })
     })
-    result.strategyCopy = JSON.stringify(result.strategy)
     await ctx.render('pages/strategy',result)
 })
 

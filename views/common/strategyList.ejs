@@ -11,7 +11,7 @@
             </a>
         <% }) %>
     </div>
-    <% if (strategy.count>1) { %>
+    <% if (strategy.count>0) { %>
         <nav class="text-center">
             <ul class="pagination">
                 <% if (strategy.pageNo==1) { %>
@@ -23,7 +23,7 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <% for(var i=0;i<Math.ceil(strategy.count/8);i++){ %>
+                <% for(var i=0;i<Math.ceil(strategy.count/strategy.pageSize);i++){ %>
                     <% if ((i+1)==strategy.pageNo) { %>
                         <li class="active">
                     <% }else{ %>
@@ -31,12 +31,12 @@
                     <% } %>
                     <a href="<%= '/'+strategy.name+'?pageNo='+ (i+1) %>"><%= i+1 %></a></li>
                 <% } %>
-                <% if (strategy.pageNo==(strategy.count-1)) { %>
+                <% if (strategy.pageNo==Math.ceil(strategy.count/strategy.pageSize)) { %>
                     <li class="disabled">
                 <% }else{ %>
                     <li>
                 <% } %>
-                    <a href="<%= strategy.pageNo==(strategy.count-1)?'javascript:void(0)':'/'+strategy.name+'?pageNo='+(parseInt(strategy.pageNo)+1)%>" aria-label="Next">
+                    <a href="<%= strategy.pageNo==Math.ceil(strategy.count/strategy.pageSize)?'javascript:void(0)':'/'+strategy.name+'?pageNo='+(parseInt(strategy.pageNo)+1)%>" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

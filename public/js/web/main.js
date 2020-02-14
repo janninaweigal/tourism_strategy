@@ -122,6 +122,9 @@ $(function () {
                 },
                 fail: function (res) {
                     showTips('用户注册',res.msg)
+                },
+                error: function (error) {
+                    showTips('用户评论',error.responseJSON.msg)
                 }
             })
         }else{
@@ -161,6 +164,9 @@ $(function () {
                 },
                 fail: function (res) {
                     showTips('用户登录',res.msg)
+                },
+                error: function (error) {
+                    showTips('用户评论',error.responseJSON.msg)
                 }
             })
         }else{
@@ -338,6 +344,9 @@ $(function () {
                 },
                 fail: function () {
                     showTips('错误','请先登录！')
+                },
+                error: function (error) {
+                    showTips('用户评论',error.responseJSON.msg)
                 }
             })
         }else{
@@ -413,6 +422,9 @@ $(function () {
                     },
                     fail: function () {
                         alert('地址保存失败')
+                    },
+                    error: function (error) {
+                        showTips('用户评论',error.responseJSON.msg)
                     }
                 })
             }else{
@@ -493,6 +505,9 @@ $(function () {
                     },
                     fail: function () {
                         alert('地址修改失败')
+                    },
+                    error: function (error) {
+                        showTips('用户评论',error.responseJSON.msg)
                     }
                 })
             }else{
@@ -521,6 +536,9 @@ $(function () {
             },
             fail: function () {
                 alert('删除失败')
+            },
+            error: function (error) {
+                showTips('用户评论',error.responseJSON.msg)
             }
         })
     })
@@ -552,6 +570,9 @@ $(function () {
                 },
                 fail: function () {
                     alert('支付失败')
+                },
+                error: function (error) {
+                    showTips('用户评论',error.responseJSON.msg)
                 }
             })
         }else{
