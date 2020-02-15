@@ -12,41 +12,27 @@
         </div>
     </div>
     <div class="row line">
-        <h3>旅行必备<small><a href="javascript:void(0)" style="margin-left: 15px;">更多</a></small></h3>
+        <h3>旅行必备<small><a href="/goodsPage" style="margin-left: 15px;">更多</a></small></h3>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <div class="thumbnail">
-                <img src="images/logo.png" width="100%">
-                <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                <font color="#b22222">&yen; 899</font>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="thumbnail">
-                <img src="images/logo.png" width="100%">
-                <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                <font color="#b22222">&yen; 899</font>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="thumbnail">
-                <img src="images/logo.png" width="100%">
-                <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                <font color="#b22222">&yen; 899</font>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="thumbnail">
-                <img src="images/logo.png" width="100%">
-                <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                <font color="#b22222">&yen; 899</font>
-            </div>
-        </div>
-
+        <% if (goodsList.length!=0) { %>
+            <% goodsList.forEach(function(item,index){ %>
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <img src="<%= item.Photo %>" title="<%= item.Name %>" alt="<%= item.Name %>" width="100%">
+                        <div class="caption">
+                            <p>商品名称：<a href="/detailPage?id=<%= item.Id %>" title="<%= item.Name %>"><%= item.Name.length>7?item.Name.substring(0,7)+'...':item.Name %></a><br/>商品类型：<%- item.Type==1?"<span class='label label-info'>自营</span><br/>":"<span class='label label-success'>非自营</span><br/>" -%>单价：<font color="#b22222">&yen; <%= item.Price %></font>&nbsp;&nbsp;&nbsp;数量：<%= item.Num %><br/>描述：<%= item.Detail %><br/>创建时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                            <div class="text-right"><a href="/detailPage?id=<%= item.Id %>" class="btn btn-primary" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a></div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="lead"><mark>没有旅行物品</mark></p>
+        <% } %>
     </div>
     <div class="row line">
-        <h3>攻略信息<small><a href="javascript:void(0)" style="margin-left: 15px;">更多</a></small></h3>
+        <h3>攻略信息<small><a href="/strategyPage" style="margin-left: 15px;">更多</a></small></h3>
     </div>
     <div class="row">
         <div class="col-md-4">
@@ -54,50 +40,21 @@
         </div>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="images/logo.png" width="100%">
-                        <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                        <font color="#b22222">&yen; 899</font>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="images/logo.png" width="100%">
-                        <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                        <font color="#b22222">&yen; 899</font>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="images/logo.png" width="100%">
-                        <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                        <font color="#b22222">&yen; 899</font>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="images/logo.png" width="100%">
-                        <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                        <font color="#b22222">&yen; 899</font>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="images/logo.png" width="100%">
-                        <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                        <font color="#b22222">&yen; 899</font>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img src="images/logo.png" width="100%">
-                        <p>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</p>
-                        <font color="#b22222">&yen; 899</font>
-                    </div>
-                </div>
+                <% if (strategyList.length!=0) { %>
+                    <% strategyList.forEach(function(item,index){ %>
+                        <div class="col-md-4">
+                            <div class="thumbnail">
+                                <img src="<%= item.Pictures[0].url %>" title="<%= item.Title %>" alt="<%= item.Title %>" width="100%">
+                                <div class="caption">
+                                    <p>标题：<a href="/strategyDetailPage?id=<%= item.Id %>" title="<%= item.Title %>"><%= item.Title.length>7?item.Title.substring(0,7)+'...':item.Title %></a><br/>描述：<%= item.Detail %><br/>创建时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                                    <div class="text-right"><a href="/strategyDetailPage?id=<%= item.Id %>" class="btn btn-primary" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="lead"><mark>没有攻略信息</mark></p>
+                <% } %>
             </div>
         </div>
     </div>

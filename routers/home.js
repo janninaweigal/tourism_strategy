@@ -11,10 +11,19 @@ router.get('/', async(ctx, next)=>{
             images=result
         }
     })
-    const result = commonJson(ctx);
-    result.labels = []
+    let result = commonJson(ctx);
     result.images = images
-    result.goods = []
+    result.goodsList = []
+    await userModel.query(`select * from goods where Status!=3 limit 0,4`).then(res=>{
+        result.goodsList = res
+    })
+    result.strategyList = []
+    await userModel.query(`select * from strategy_info limit 0,8`).then(res=>{
+        result.strategyList = res.map(item=>{
+            item.Pictures = JSON.parse(item.Pictures).pictures
+        　　return item
+        })
+    })
     await ctx.render('home',result)
 })
  router.post('/uploadImg', async (ctx) => {

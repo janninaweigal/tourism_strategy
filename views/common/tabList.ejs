@@ -22,7 +22,18 @@
             <% } %>
             <div class="list-group">
                 <% tab.list.forEach(function(i,index){ %>
-                    <%= i.Name.length>12?i.Name.substring(0,12)+'...':i.Name %>
+                    <a href="/goodsDetail?id=<%= i.Id %>" class="list-group-item" title="<%= i.Name %>">
+                        <% if(index ==0) { %>
+                            <span class="badge pull-left" style="background-color:#FF858E;">&nbsp;<%= index+1 %>&nbsp;&nbsp;</span>
+                        <% } else if(index==1) { %>
+                            <span class="badge pull-left" style="background-color:#77D549;">&nbsp;<%= index+1 %>&nbsp;&nbsp;</span>
+                        <% } else if(index==2) { %>
+                            <span class="badge pull-left" style="background-color:#62C1FF;">&nbsp;<%= index+1 %>&nbsp;&nbsp;</span>
+                        <% } else { %>
+                            <span class="badge pull-left" style="background-color:#979598;">&nbsp;<%= index+1 %>&nbsp;&nbsp;</span>
+                        <% } %>&nbsp;
+                        <%= i.Name.length>12?i.Name.substring(0,12)+'...':i.Name %>
+                    </a>
                 <% }) %>
             </div>
         </div>

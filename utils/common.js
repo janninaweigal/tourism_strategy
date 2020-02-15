@@ -105,7 +105,38 @@ export function commonJson(ctx){
     return {
         session: ctx.session,
         navArray: switchNav(ctx.path),
-        tabList: [],
+        tabList: [
+            {
+                id:1,
+                name:"123",
+                list: [
+                    {
+                        Id:1,
+                        Name:123,
+                    },
+                    {
+                        Id:2,
+                        Name:456,
+                    },
+                    {
+                        Id:3,
+                        Name:789,
+                    },
+                    {
+                        Id:4,
+                        Name:123,
+                    },
+                    {
+                        Id:5,
+                        Name:456,
+                    },
+                    {
+                        Id:6,
+                        Name:789,
+                    }
+                ]
+            }
+        ],
         footers:footers,
         moment:moment
     }

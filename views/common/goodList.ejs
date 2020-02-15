@@ -5,7 +5,7 @@
                 <div class="thumbnail">
                     <img src="<%= item.Photo %>" title="<%= item.Name %>" alt="<%= item.Name %>" width="100%">
                     <div class="caption">
-                        <p>商品名称：<a href="/detailPage?id=<%= item.Id %>" title="<%= item.Name %>"><%= item.Name.length>7?item.Name.substring(0,7)+'...':item.Name %></a><br/>商品类型：<%- item.Type==1?"<span class='text-success'>自营</span><br/>":"<span class='text-danger'>非自营</span><br/>" -%>单价：<%= item.Price %>&nbsp;&nbsp;&nbsp;数量：<%= item.Num %><br/>描述：<%= item.Detail %><br/>创建时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                        <p>商品名称：<a href="/detailPage?id=<%= item.Id %>" title="<%= item.Name %>"><%= item.Name.length>7?item.Name.substring(0,7)+'...':item.Name %></a><br/>商品类型：<%- item.Type==1?"<span class='label label-info'>自营</span><br/>":"<span class='label label-success'>非自营</span><br/>" -%>单价：<font color="#b22222">&yen; <%= item.Price %></font>&nbsp;&nbsp;&nbsp;数量：<%= item.Num %><br/>描述：<%= item.Detail %><br/>创建时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
                         <div class="text-right"><a href="/detailPage?id=<%= item.Id %>" class="btn btn-primary" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a></div>
                     </div>
                 </div>
