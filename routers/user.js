@@ -20,6 +20,7 @@ router.post('/user/insert', async(ctx, next) => {
     const params = ctx.request.body
     const email=params.email
     const username=params.username
+    let fileName =''
     let avatar=params.avatar
     const isAdmin=params.isAdmin?1:0
     let response = {
@@ -38,17 +39,13 @@ router.post('/user/insert', async(ctx, next) => {
     if(response.flag && avatar){
         // 上传图片
         let fileName =getFileName();
-        const uploadFlag = await writePhotoFile(params.file,fileName)
-        if(uploadFlag){
-            avatar = fileName
-        }else {
-            response.flag = false;
-        }
+        const uploadFlag = await writePhotoFile(avatar,fileName)
+        response.flag = uploadFlag
     } else {
-        avatar = 'images/default.png'
+        fileName = 'images/default.png'
     }
     if(response.flag){
-        await userModel.insertUserInfo([username,avatar,email,isAdmin]).then(res=>{
+        await userModel.insertUserInfo([username,fileName,email,isAdmin]).then(res=>{
             response.data = res;
         }).catch(()=>{
             response.flag = false;
@@ -94,16 +91,17 @@ router.put('/user/update', async(ctx, next) => {
         })
     }
     if(response.flag && avatar){
-        if(oldData!=null&&(oldData.Avatar!=avatar)){
+        if(avatar.indexOf(oldData.Avatar)==-1){
             // 上传图片
-            const fileName =getFileName();
-            const uploadFlag = await writePhotoFile(params.file,fileName)
+            let fileName =getFileName();
+            const uploadFlag = await writePhotoFile(avatar,fileName)
             if(uploadFlag){
                 avatar = fileName
             }else {
                 response.flag = false;
             }
         }
+        avatar = avatar.slice(avatar.indexOf('images'))
     }
     if(response.flag){
         await userModel.updateUser([username,email,isAdmin,avatar,id]).then(res=>{

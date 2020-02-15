@@ -33,7 +33,10 @@ router.get('/strategyDetailPage',async(ctx,next)=>{
     result.comments = []
     if(Id){
         await userModel.findStrategyById(Id).then(res=>{
-            result.strategyDetail=res[0];
+            result.strategyDetail=res[0].map(item=>{
+                item.Pictures = JSON.parse(item.Pictures).pictures
+            　　return item
+            });
         })
         await userModel.selectCommentByStrategyId(Id).then(res=>{
             result.comments=res

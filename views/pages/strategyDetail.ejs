@@ -9,6 +9,9 @@
             <h1><%- strategyDetail.Title %></h1>
             <p class="text-danger text-right">发表时间：<%= moment(strategyDetail.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
         </div>
+        <% strategyDetail.Pictures.forEach(function(pic){ %>
+            <img src="<%= pic.name %>" style="width:150px;height:150px;margin:10px 15px 10px 0px;"/>
+        <% }) %>
         <div class="well"><%- strategyDetail.Content %></div>
     </div>
 

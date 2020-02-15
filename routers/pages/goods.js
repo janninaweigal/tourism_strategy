@@ -60,6 +60,7 @@ router.post('/goods/insert', async(ctx, next) => {
     const Type=params.Type
     let Photo=params.Photo
     const Price=params.Price
+    let fileName = ''
     const Status=params.Status
     const Num=params.Num
     let response = {
@@ -69,18 +70,14 @@ router.post('/goods/insert', async(ctx, next) => {
     }
     if(response.flag && Photo){
         // 上传图片
-        let fileName =getFileName();
-        const uploadFlag = await writePhotoFile(params.file,fileName)
-        if(uploadFlag){
-            Photo = fileName
-        }else {
-            response.flag = false;
-        }
+        fileName =getFileName();
+        const uploadFlag = await writePhotoFile(Photo,fileName)
+        response.flag = uploadFlag
     } else {
-        Photo = 'images/default.png'
+        fileName = 'images/default.png'
     }
     if(response.flag){
-        await userModel.insertGoods([Name,Photo,Type,Price,Status,Num,params.Detail]).then(res=>{
+        await userModel.insertGoods([Name,fileName,Type,Price,Status,Num,params.Detail]).then(res=>{
             response.data = res;
         }).catch(error=>{
             response.flag = false;
@@ -116,16 +113,17 @@ router.put('/goods/update', async(ctx, next) => {
         }
     })
     if(response.flag && Photo){
-        if(oldData!=null&&(oldData.Photo!=Photo)){
+        if(Photo.indexOf(oldData.Photo)==-1){
             // 上传图片
-            const fileName =getFileName();
-            const uploadFlag = await writePhotoFile(params.file,fileName)
+            let fileName =getFileName();
+            const uploadFlag = await writePhotoFile(Photo,fileName)
             if(uploadFlag){
                 Photo = fileName
             }else {
                 response.flag = false;
             }
         }
+        Photo = Photo.slice(Photo.indexOf('images'))
     }
     if(response.flag){
         await userModel.updateGoods([Name,Photo,Type,Price,Status,Num,params.Detail,Id]).then(res=>{
