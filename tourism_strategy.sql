@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 14/02/2020 10:14:28
+ Date: 15/02/2020 15:00:18
 */
 
 SET NAMES utf8mb4;
@@ -33,6 +33,7 @@ CREATE TABLE `_mysql_session_store`  (
 -- ----------------------------
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:-B_B7O9A0SXEjm-d1KGPNE-PTSgarZQX', 1581698157217, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/1581428563010.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1,\"type\":2}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:-jGmMt7Zc8rrAAXJ-yq-gbwLY7JwIBZw', 1580906404690, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.jpg\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
+INSERT INTO `_mysql_session_store` VALUES ('USER_SID:09Di5JLkT1bNA6fRzqzJT-shgvKdyT89', 1581734775955, '{\"type\":2}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:5EPjqm16ArXJD-Q5B2c_Jz2jowJ0HwTH', 1581253180549, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:9l_5Zgrt5SuJ1TVzFJitz52ZShfO4iAr', 1581336047182, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:CQ6FfgT9i2FvjhP5ZI9YNKWWrE_tFlQV', 1580734213249, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.jpg\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
@@ -43,6 +44,8 @@ INSERT INTO `_mysql_session_store` VALUES ('USER_SID:PMnN3RmLOfB0dWclgf9_rE4ymj-
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:VTMMYvAlPFrbZgzOL_A0JbybJc9mS0zT', 1581067549134, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:W9zDLpERbNf1pAY9Uk67dwkOZQlKTcYe', 1581610458698, '{\"id\":21,\"username\":\"zhangsan\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":0,\"shopcart\":[{\"Id\":\"3\",\"Quantity\":\"1\"}]}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:_hCB94oxz9Uw1Yf_dsUvDE0P0L0SKNN1', 1581514829472, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/1581428213634.jpg\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
+INSERT INTO `_mysql_session_store` VALUES ('USER_SID:cBzSRsk1Z7dnOw3zUCw1sP3ALd6YbMIZ', 1581774682646, '{\"type\":1,\"id\":21,\"username\":\"zhangsan\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":0,\"shopcart\":[{\"Id\":\"11\",\"Quantity\":\"1\"}]}');
+INSERT INTO `_mysql_session_store` VALUES ('USER_SID:j9H78SP5LjTAKuYNX7FAWz-Fq2fL-kP4', 1581830570072, '{\"type\":2,\"id\":20,\"username\":\"admin\",\"avatar\":\"images/1581428563010.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:l01wBWv5q6L5g90IxJcEPgKBRJL8eUBE', 1581033016156, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:p90I9nIA75Y3RKdzoxWrhpBYFohKde80', 1581126688652, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:zRudZtjaRyHHzMkWSxJCsrvjfPPgxTai', 1581398429557, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
@@ -147,7 +150,7 @@ CREATE TABLE `goods`  (
 -- Records of goods
 -- ----------------------------
 INSERT INTO `goods` VALUES (2, '随身物品', 'images/20200206-073959-80.png', 1, '123', 122.35, 1, 100, '2020-02-06 19:39:59', '2020-02-12 21:42:35');
-INSERT INTO `goods` VALUES (3, '挎包2', 'images/20200206-074035-50.png', 0, '123', 12.00, 2, 123, '2020-02-06 19:40:35', '2020-02-12 22:09:22');
+INSERT INTO `goods` VALUES (3, '挎包2', 'images/20200206-074035-50.png', 0, '123', 12.00, 2, 123, '2020-02-06 19:40:35', '2020-02-15 14:24:36');
 INSERT INTO `goods` VALUES (4, '随身物品3', 'images/20200206-073959-80.png', 1, NULL, 122.35, 1, 100, '2020-02-06 19:39:59', '2020-02-12 22:09:24');
 INSERT INTO `goods` VALUES (5, '随身物品4', 'images/20200206-073959-80.png', 1, NULL, 122.35, 1, 100, '2020-02-06 19:39:59', '2020-02-12 22:09:25');
 INSERT INTO `goods` VALUES (6, '随身物品5', 'images/20200206-073959-80.png', 1, NULL, 122.35, 1, 100, '2020-02-06 19:39:59', '2020-02-12 22:09:26');
@@ -176,7 +179,7 @@ CREATE TABLE `hotel_room`  (
 -- ----------------------------
 -- Records of hotel_room
 -- ----------------------------
-INSERT INTO `hotel_room` VALUES (1, 1, '123', '{\"pictures\":[{\"name\":\"images/1581351810371.jpg\",\"url\":\"http://localhost:3000/images/1581351810371.jpg\"}]}', 2, 333.00, 0, '2020-02-10 23:21:30', '2020-02-11 00:23:31');
+INSERT INTO `hotel_room` VALUES (1, 1, '123', '{\"pictures\":[{\"name\":\"1581351810371.jpg\",\"url\":\"images/1581351810371.jpg\"},{\"name\":\"1581748628456.jpg\",\"url\":\"images/1581748628456.jpg\"}]}', 2, 333.00, 0, '2020-02-10 23:21:30', '2020-02-15 14:37:09');
 
 -- ----------------------------
 -- Table structure for hotel_room_comments
@@ -228,7 +231,7 @@ CREATE TABLE `hotels`  (
 -- ----------------------------
 -- Records of hotels
 -- ----------------------------
-INSERT INTO `hotels` VALUES (1, '桔子酒店·精选(北京亚运村店)', '北京 朝阳区 北苑路200号安苑东里三区10号院6号楼 【 亚运村/奥体中心地区 】', '{\"pictures\":[{\"name\":\"images/1581340465208.jpg\",\"url\":\"http://localhost:3000/images/1581340465208.jpg\"},{\"name\":\"images/1581340465211.jpg\",\"url\":\"http://localhost:3000/images/1581340465211.jpg\"}]}', 1, 0, '服务很周到，特殊时期，挺好的', '2020-02-10 21:08:21', '2020-02-10 21:27:34');
+INSERT INTO `hotels` VALUES (1, '桔子酒店·精选(北京亚运村店)', '北京 朝阳区 北苑路200号安苑东里三区10号院6号楼 【 亚运村/奥体中心地区 】', '{\"pictures\":[{\"name\":\"1581340465208.jpg\",\"url\":\"images/1581340465208.jpg\"},{\"name\":\"1581340465211.jpg\",\"url\":\"images/1581340465211.jpg\"},{\"name\":\"1581748597546.png\",\"url\":\"images/1581748597546.png\"}]}', 1, 0, '服务很周到，特殊时期，挺好的', '2020-02-10 21:08:21', '2020-02-15 14:36:39');
 
 -- ----------------------------
 -- Table structure for strategy_info
@@ -249,7 +252,7 @@ CREATE TABLE `strategy_info`  (
 -- ----------------------------
 -- Records of strategy_info
 -- ----------------------------
-INSERT INTO `strategy_info` VALUES (2, '贺记蛋烘糕', '{\"pictures\":[{\"name\":\"images/1581263371186.jpg\",\"url\":\"http://localhost:3000/images/1581263371186.jpg\"},{\"name\":\"images/1581314994679.jpg\",\"url\":\"http://localhost:3000/images/1581314994679.jpg\"},{\"name\":\"images/1581315331660.png\",\"url\":\"http://localhost:3000/images/1581315331660.png\"}]}', '<p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">店名：贺记蛋烘糕</span></p><p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">地址：成都青羊区文庙西街1号附8号（成都石室中学对面）</span></p><p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">价格：2.5元/个 加三种馅料及以上另算</span></p><p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">这个我亲身去吃过，干净卫生，味道自然也不在话下了</span></p>', '成都青羊区文庙西街1号附8号（成都石室中学对面）', '2020-02-09 23:02:13', '2020-02-10 14:15:33');
+INSERT INTO `strategy_info` VALUES (2, '贺记蛋烘糕', '{\"pictures\":[{\"name\":\"1581263371186.jpg\",\"url\":\"images/1581263371186.jpg\"},{\"name\":\"1581314994679.jpg\",\"url\":\"images/1581314994679.jpg\"},{\"name\":\"1581315331660.png\",\"url\":\"images/1581315331660.png\"},{\"name\":\"1581748477946.jpg\",\"url\":\"images/1581748477946.jpg\"}]}', '<p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">店名：贺记蛋烘糕</span></p><p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">地址：成都青羊区文庙西街1号附8号（成都石室中学对面）</span></p><p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">价格：2.5元/个 加三种馅料及以上另算</span></p><p><span style=\"color: rgb(51, 51, 51); background-color: rgb(255, 255, 255);\">这个我亲身去吃过，干净卫生，味道自然也不在话下了</span></p>', '成都青羊区文庙西街1号附8号（成都石室中学对面）', '2020-02-09 23:02:13', '2020-02-15 14:34:45');
 
 -- ----------------------------
 -- Table structure for strategy_info_comments
@@ -292,7 +295,7 @@ CREATE TABLE `tourist_spots`  (
 -- ----------------------------
 -- Records of tourist_spots
 -- ----------------------------
-INSERT INTO `tourist_spots` VALUES (2, '三坊七巷', '{\"pictures\":[{\"name\":\"images/1581433854196.jpg\",\"url\":\"http://localhost:3000/images/1581433854196.jpg\"}]}', '三坊七巷自晋、唐形成起，便是贵族和士大夫的聚居地，清至民国走向辉煌。区域内现存古民居约有270座，有159处被列入保护建筑。以沈葆桢故居、林觉民故居、严复故居等9处典型建筑为代表的三坊七巷古建筑群，被国务院公布为全国重点文物保护单位。', '福建省福州市', '2020-02-10 16:06:38', '2020-02-11 23:10:55');
+INSERT INTO `tourist_spots` VALUES (2, '三坊七巷', '{\"pictures\":[{\"name\":\"1581433854196.jpg\",\"url\":\"images/1581433854196.jpg\"},{\"name\":\"1581748549244.jpg\",\"url\":\"images/1581748549244.jpg\"}]}', '三坊七巷自晋、唐形成起，便是贵族和士大夫的聚居地，清至民国走向辉煌。区域内现存古民居约有270座，有159处被列入保护建筑。以沈葆桢故居、林觉民故居、严复故居等9处典型建筑为代表的三坊七巷古建筑群，被国务院公布为全国重点文物保护单位。', '福建省福州市', '2020-02-10 16:06:38', '2020-02-15 14:35:50');
 
 -- ----------------------------
 -- Table structure for train_tickets
@@ -421,7 +424,7 @@ INSERT INTO `users` VALUES (30, '啊11', '8b430f20f8641d94f71fdda086d02660', 'im
 INSERT INTO `users` VALUES (31, 'linb16', '8b430f20f8641d94f71fdda086d02660', 'images/default.png', '123@qq.com', 1, '2020-02-08 10:29:41', NULL);
 INSERT INTO `users` VALUES (32, 'qwe123', '8b430f20f8641d94f71fdda086d02660', 'images/default.png', 'qw@qq.com', 1, '2020-02-09 10:47:48', NULL);
 INSERT INTO `users` VALUES (33, 'a123', '8b430f20f8641d94f71fdda086d02660', 'images/default.png', '123@qq.om', 1, '2020-02-12 21:17:17', NULL);
-INSERT INTO `users` VALUES (34, 'linliqi123', '8b430f20f8641d94f71fdda086d02660', 'images/default.png', '123@qq.com', 0, '2020-02-12 23:32:31', NULL);
+INSERT INTO `users` VALUES (34, 'linliqi123', '8b430f20f8641d94f71fdda086d02660', 'images/20200215-135250-200.png', '123@qq.com', 0, '2020-02-15 13:53:04', NULL);
 
 -- ----------------------------
 -- Table structure for users_address
