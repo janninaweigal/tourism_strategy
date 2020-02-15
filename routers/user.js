@@ -144,7 +144,6 @@ router.put('/personal/updateImg', async(ctx,next)=>{
                 result.msg='个人信息更新成功'
                 ctx.session.avatar = fileName;
             }).catch(err => {
-                console.log(err)
                 result.flag=false;
                 result.msg='出现错误！！'
             })

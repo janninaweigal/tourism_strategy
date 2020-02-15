@@ -9,5 +9,63 @@
             <li class="active">订酒店</li>
         </ol>
     </div>
+    <div class="row hotelContainer">
+        <% if (hotel.list.length!=0) { %>
+            <% hotel.list.forEach(function(item,index){ %>
+                <div class="col-md-12 col-sm-12 hotelItem">
+                    <div class="col-md-5 col-sm-5">
+                        <% item.Pictures.forEach(function(pic){ %>
+                            <img src="<%= pic.url %>" style="width:45%;margin:10px 10px 10px 0px;"/>
+                        <% }) %>
+                    </div>
+                    <div class="col-md-7 col-sm-7">
+                        <div class="page-header">
+                            <h3><%= item.Name %><small class="pull-right">创立时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></small></h3>
+                        </div>
+                        <p class="bg-info" style="padding: 15px;"><%= item.Name %></p>
+                        <p class="text-muted"><%= item.Name %></p>
+                        <span class="label label-primary"><%= item.HasBreakfast==1?'有':'无' %>早餐</span>
+                        <span class="label label-primary"><%= item.HasWifi==1?'有':'无' %>WiFi</span>
+                        <div class="price">￥<strong><%= item.MinPrice||'暂无房间' %></strong></div>
+                        <a href="/hotelDetailPage?id=<%= item.Id %>" class="btn btn-info btn-lg pull-right" role="button">去入住&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="lead"><mark>没有酒店信息</mark></p>
+        <% } %>
+    </div>
+    <% if (hotel.count>0) { %>
+        <nav class="text-center">
+            <ul class="pagination">
+                <% if (hotel.pageNo==1) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= hotel.pageNo==1?'javascript:void(0)':'/'+hotel.name+'?pageNo='+(parseInt(hotel.pageNo)-1)%>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <% for(var i=0;i<Math.ceil(hotel.count/hotel.pageSize);i++){ %>
+                    <% if ((i+1)==hotel.pageNo) { %>
+                        <li class="active">
+                    <% }else{ %>
+                        <li>
+                    <% } %>
+                    <a href="<%= '/'+hotel.name+'?pageNo='+ (i+1) %>"><%= i+1 %></a></li>
+                <% } %>
+                <% if (hotel.pageNo==Math.ceil(hotel.count/hotel.pageSize)) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= hotel.pageNo==Math.ceil(hotel.count/hotel.pageSize)?'javascript:void(0)':'/'+hotel.name+'?pageNo='+(parseInt(hotel.pageNo)+1)%>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    <% } %>
 </div>
 <% include ../common/footer %>

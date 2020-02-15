@@ -119,6 +119,19 @@ ul.navbar-nav li:hover span{
 .personInfo .label-danger{
     margin-bottom:20px;
 }
+/* 订酒店 */
+.hotelContainer .price {
+    color: #f60;
+    font-size: 20px;
+}
+.hotelContainer .price strong {
+    color: #f60;
+    font-size: 36px;
+}
+.hotelContainer .hotelItem{
+    padding-bottom: 15px;
+    margin-bottom:15px;border:2px solid #ccc;border-radius:10px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 /*页脚*/
 .footer{
     /* position: fixed;

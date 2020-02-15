@@ -5,7 +5,50 @@ const result = require('../../json/result');
 
 router.get('/hotelPage', async(ctx, next) => {
     const result = commonJson(ctx)
+    const query=ctx.request.query
+    const pageNo = parseInt(query.pageNo||1)
+    result.hotel = {
+        list: [],
+        count: 0,
+        name:'hotelPage',
+        pageNo:pageNo,
+        pageSize:10
+    }
+    await userModel.query("select count(1) count from hotels").then(res=>{
+        result.hotel.count = res[0].count
+    })
+    await userModel.query(`select h.*,min(Price) MinPrice from hotels h left join hotel_room r on r.HotelId = h.Id GROUP BY h.Id limit ${(result.hotel.pageNo-1)*result.hotel.pageSize},${result.hotel.pageSize}`).then(res=>{
+        result.hotel.list = res.map(item=>{
+            item.Pictures = JSON.parse(item.Pictures).pictures
+        　　return item
+        })
+    })
     await ctx.render('pages/hotel',result)
+})
+// 酒店详情
+router.get('/hotelDetailPage', async(ctx, next) => {
+    const Id=ctx.request.query.id
+    let result = commonJson(ctx)
+    result.hotelDetail = {}
+    result.comments = []
+    if(Id){
+        await userModel.findHotelById(Id).then(res=>{
+            let data = res[0]
+            data.Pictures = JSON.parse(data.Pictures).pictures
+            result.hotelDetail=res[0];
+        })
+        await userModel.query(`select * from hotel_room where HotelId = ${Id}`).then(res=>{
+            result.hotelRoomDetail=res.map(item=>{
+                item.Pictures = JSON.parse(item.Pictures).pictures
+            　　return item
+            });
+        })
+        await userModel.selectCommentByHotelId(Id).then(res=>{
+            result.comments=res
+        })
+    }
+    result.session.type = 3
+    await ctx.render('pages/hotelDetail',result)
 })
 
 router.post('/hotel/list', async(ctx, next) => {
