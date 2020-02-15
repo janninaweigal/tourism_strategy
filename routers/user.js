@@ -2,7 +2,6 @@ var router = require('koa-router')();
 var userModel = require('../lib/mysql.js')
 const result = require('../json/result');
 import { writePhotoFile,getFileName} from '../utils/common'
-const config = require('../config/default.js');    //引入默认文件
 
 router.post('/user/list', async(ctx, next) => {
     const response = Object.assign({},result)
@@ -124,4 +123,36 @@ router.delete('/user/delete/:id', async(ctx, next) => {
     flag?ctx.success(null,'删除成功'):ctx.error('删除失败');
 })
 
+// 更新头像
+router.put('/personal/updateImg', async(ctx,next)=>{
+    let result={
+        flag:false,
+        msg:'个人信息更新失败'
+    }
+    const Photo=ctx.request.body.avatar;
+    let upload = false;
+    const id=ctx.session.id
+    const avatar =ctx.session.avator
+    if(Photo!=avatar){
+        // 上传头像
+        let fileName =getFileName();
+        upload =await writePhotoFile(Photo,fileName)
+        if(upload){
+            // 更新个人信息的头像
+            await userModel.updateUserImg(fileName,id).then(res=>{
+                result.flag=true;
+                result.msg='个人信息更新成功'
+                ctx.session.avatar = fileName;
+            }).catch(err => {
+                console.log(err)
+                result.flag=false;
+                result.msg='出现错误！！'
+            })
+        }
+    }else{
+        result.flag=true;
+        result.msg='个人信息更新成功'
+    }
+    ctx.body=result
+});
 module.exports = router

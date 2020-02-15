@@ -39,4 +39,9 @@ router.get('/', async(ctx, next)=>{
     })
     flag?ctx.success(files,'修改头像成功'):ctx.error('修改头像失败')
  })
+ 
+// 更换密码
+router.get('/changePwdPage', async(ctx, next) => {
+    await ctx.render('pages/changePwd',commonJson(ctx))
+})
 module.exports = router;

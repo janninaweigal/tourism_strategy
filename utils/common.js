@@ -37,6 +37,22 @@ export async function writePhotoFile(BookPhoto,Name) {
     })
     return upload;
 }
+/**
+ * 评论成树接口
+ * @param {*} list 
+ * @param {*} parentId 
+ */
+export function diGuiComment(list,parentId,sendUser=''){
+    let newList = []
+    for(const index in list){
+        if(list[index].ParentId == parentId){
+            list[index].SendUser = sendUser
+            newList.push(list[index])
+            list[index].Children=diGuiComment(list,list[index].Id,list[index].Username)
+        }
+    }
+    return newList;
+}
 
 export function photoToBase64(BookPhoto){
     let base64Data = BookPhoto.replace(/^data:image\/\w+;base64,/, "");

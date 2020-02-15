@@ -27,29 +27,52 @@
             </div>
         </div>
 
-        <!--评论区域 end-->
-        <!--回复区域 begin-->
+        <!--评论区域 -->
         <div class="comment-show">
-            <div class="comment-show-con clearfix">
-                <div class="comment-show-con-img pull-left"><img src="images/default.png" alt=""></div>
-                <div class="comment-show-con-list pull-left clearfix">
-                    <div class="pl-text clearfix">
-                        <span class="comment-size-name">张三 : </span>
-                        <span class="my-pl-con">&nbsp;来啊 造作啊!</span>
-                    </div>
-                    <div class="date-dz">
-                        <span class="date-dz-left pull-left comment-time">2017-5-2 11:11:39</span>
-                        <div class="date-dz-right pull-right comment-pl-block">
-                            <a href="javascript:;" class="removeBlock">删除</a>
-                            <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>
-                            <span class="pull-left date-dz-line">|</span>
-                            <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i
-                                    class="z-num">666</i>)</a>
+            <% communityList.forEach(function(item){ %>
+                <div class="comment-show-con clearfix">
+                    <div class="comment-show-con-img pull-left"><img src="images/default.png" alt=""></div>
+                    <div class="comment-show-con-list pull-left clearfix">
+                        <div class="pl-text clearfix">
+                            <span class="comment-size-name"><%= item.Username %></span>
+                            <span class="my-pl-con">&nbsp;<%= item.Content %></span>
+                        </div>
+                        <div class="date-dz">
+                            <span class="date-dz-left pull-left comment-time"><%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></span>
+                            <div class="date-dz-right pull-right comment-pl-block">
+                                <a href="javascript:;" class="removeBlock" data-id="<%= item.Id %>">删除</a>
+                                <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" data-id="<%= item.Id %>" data-pid="<%= item.ParentId %>">回复</a>
+                                <span class="pull-left date-dz-line">|</span>
+                                <a href="javascript:;" class="date-dz-z pull-left" data-id="<%= item.Id %>"><i class="date-dz-z-click-red"></i>赞 (<i
+                                        class="z-num"><%= item.PraiseNum %></i>)</a>
+                            </div>
+                        </div>
+                        <!--回复区域 -->
+                        <div class="hf-list-con">
+                            <% item.Children.forEach(function(children){ %>
+                                <div class="all-pl-con">
+                                    <div class="pl-text hfpl-text clearfix">
+                                        <a href="#" class="comment-size-name"><%= children.Username %> :</a>
+                                        <span class="my-pl-con">回复
+                                        <a href="#" class="atName">@<%= children.SendUser %></a> : <%= children.Content %>
+                                        </span>
+                                    </div>
+                                    <div class="date-dz">
+                                        <span class="date-dz-left pull-left comment-time"><%= moment(children.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></span>
+                                        <div class="date-dz-right pull-right comment-pl-block">
+                                            <a href="javascript:;" class="removeBlock" data-id="<%= children.Id %>">删除</a>
+                                            <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left" data-id="<%= children.Id %>" data-pid="<%= children.ParentId %>">回复</a>
+                                            <span class="pull-left date-dz-line">|</span>
+                                            <a href="javascript:;" class="date-dz-z pull-left" data-id="<%= children.Id %>"><i class="date-dz-z-click-red"></i>赞 (<i
+                                                    class="z-num"><%= children.PraiseNum %></i>)</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
                         </div>
                     </div>
-                    <div class="hf-list-con"></div>
                 </div>
-            </div>
+             <% }) %>
         </div>
     </div>
 </div>

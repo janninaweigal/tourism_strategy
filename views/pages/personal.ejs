@@ -9,5 +9,14 @@
             <li class="active">我的</li>
         </ol>
     </div>
+    <div class="row personInfo">
+        <img src="<%= session.avatar|| 'images/default.jpg' %>" title="<% session.username %>"/>
+        <input type="file" accept="image/*" class="uploadFile" name="Avatar" value=""/>
+        <div class="imgTip">点击头像进行上传</div>
+        <span class="label label-danger"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<%= session.username||'某某' %></span>
+        <span class="label label-info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;<%= session.email||'xxxxxxx@qq.com' %></span>
+        <button type="button" class="btn btn-primary" style="margin:20px 0px;">保存更改</button>
+    </div>
 </div>
+<script src="js/personal.js"></script>
 <% include ../common/footer %>

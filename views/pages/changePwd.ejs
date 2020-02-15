@@ -1,0 +1,31 @@
+<% include ../common/header %>
+<% include ../common/nav %>
+<% include ../common/banner %>
+<div class="container">
+    <div class="row">
+        <ol class="breadcrumb shadow-frame">
+            你现在正在浏览：
+            <li><a href="/">首页</a></li>
+            <li class="active">我的</li>
+        </ol>
+    </div>
+    <div class="row">
+        <form method="post" onsubmit="return false" action="##" id="changePwdForm">
+            <div class="form-group">
+                <label for="oldPwd">旧密码</label>
+                <input type="password" class="form-control" id="oldPwd" placeholder="旧密码">
+            </div>
+            <div class="form-group">
+                <label for="pass">新密码</label>
+                <input type="password" class="form-control" id="pass" placeholder="新密码">
+            </div>
+            <div class="form-group">
+                <label for="checkPass">确认密码</label>
+                <input type="password" class="form-control" id="checkPass" placeholder="确认密码">
+            </div>
+            <button type="button" class="btn btn-success pull-right" onclick="changePwd()">修改密码</button>
+        </form>
+    </div>
+</div>
+<script src="js/personal.js"></script>
+<% include ../common/footer %>

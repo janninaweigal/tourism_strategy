@@ -88,6 +88,37 @@ ul.navbar-nav li:hover span{
 .rightEdit{
     margin-left:10px;
 }
+
+/*个人信息*/
+.personInfo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin:15px 0px;
+}
+.personInfo img{
+    margin-top:20px;
+    width:150px;height:150px;border-radius:50%;
+    border:2px solid #5bc0de;
+}
+.personInfo .imgTip{
+    margin:20px 0px;
+}
+.personInfo .uploadFile{
+    width:150px;height:150px;border-radius:50%;
+    font-size: 0;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    padding: 0px;
+    margin: 0px;
+    cursor: pointer;
+    margin-top: -150px;
+    z-index: 2;
+}
+.personInfo .label-danger{
+    margin-bottom:20px;
+}
 /*页脚*/
 .footer{
     /* position: fixed;
