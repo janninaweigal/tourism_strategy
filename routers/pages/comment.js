@@ -55,7 +55,6 @@ router.post('/comment', async(ctx, next) => {
                 })
             }
             break;
-
     }
     ctx.body = result;
 })

@@ -61,9 +61,9 @@ router.get('/order/callback', async(ctx, next) => {
         let data=[]
         const len=shopcart.length
         if(len==1){
-            data='('+[UserId,parseInt(shopcart[0].BookId),UserAddressId,Seller_Id,Out_Trade_No,Trade_No,shopcart[0].Quantity,Total_Amount].join(',')+')'
-            // 销售量增加，数量减少
-            await userModel.updateBookSaleNum('SaleNum+1','Quantity-'+shopcart[0].Quantity,parseInt(shopcart[0].BookId)).then(res=>{
+            data='('+[UserId,parseInt(shopcart[0].Id),UserAddressId,Seller_Id,Out_Trade_No,Trade_No,shopcart[0].Quantity,Total_Amount].join(',')+')'
+            // 数量减少
+            await userModel.updateGoodsNumById('Num-'+shopcart[0].Quantity,parseInt(shopcart[0].Id)).then(res=>{
                 if(res.affectedRows==1){
                     result=true
                 }
@@ -71,10 +71,10 @@ router.get('/order/callback', async(ctx, next) => {
         }else{
             for(let i=0,j=len;i<j;i++){
                 const obj=shopcart[i]
-                const item='('+[UserId,parseInt(obj.BookId),UserAddressId,Seller_Id,Out_Trade_No,Trade_No,obj.Quantity,Total_Amount].join(',')+')'
+                const item='('+[UserId,parseInt(obj.Id),UserAddressId,Seller_Id,Out_Trade_No,Trade_No,obj.Quantity,Total_Amount].join(',')+')'
                 data.push(item)
-                // 销售量增加，数量减少
-                await userModel.updateBookSaleNum('SaleNum+1','Quantity-'+obj.Quantity,parseInt(obj.BookId)).then(res=>{
+                // 数量减少
+                await userModel.updateGoodsNumById('Num-'+obj.Quantity,parseInt(obj.Id)).then(res=>{
                     result=true
                 }).catch()
             }
@@ -85,12 +85,6 @@ router.get('/order/callback', async(ctx, next) => {
             if(res.affectedRows==len){
                 result=true;
             }
-        }).catch((res)=>{
-            console.log(res)
-        })
-        // 清空购物车
-        await userModel.deleteShopcartsByUserId(UserId).then(res=>{
-            
         }).catch((res)=>{
             console.log(res)
         })

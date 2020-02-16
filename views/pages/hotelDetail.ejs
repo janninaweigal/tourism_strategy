@@ -20,65 +20,74 @@
         </div>
         <div class="col-md-6 col-sm-6">
             <h4><%= hotelDetail.Name %></h4>
-            <p>
-                <% if (hotelDetail.Type==1) { %>
-                    <span class="label label-danger">自营</span>
-                <% } else{ %>
-                    <span class="label label-danger">非自营</span>
-                <% } %>
-            </p>
             <p>描述：<%= hotelDetail.Detail %></p>
+            <span class="label label-primary"><%= hotelDetail.HasBreakfast==1?'有':'无' %>早餐</span>
+            <span class="label label-primary"><%= hotelDetail.HasWifi==1?'有':'无' %>WiFi</span>
+            <p class="text-info">创建时间:<%= moment(hotelDetail.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
             <hr/>
             <p>
-                酒店名称:<a href="javascript:void(0)"><%= hotelDetail.Name||'无名氏' %></a>&nbsp;&nbsp;
-                创建时间:<%= moment(hotelDetail.CreateTime).format('YYYY-MM-DD HH:mm:ss') %>
+                地址:<a href="javascript:void(0)"><%= hotelDetail.Address %></a>
             </p>
-            <div class="alert alert-info" role="alert">
-                酒店价格：
-                <h3 class="text-danger Price"><span class="glyphicon glyphicon-yen"></span><%= hotelDetail.Price %></h3>
-            </div>
-            <div class="input-group" style="margin:10px 0px 20px 0px">
-                <input type="text" onkeypress="return event.keyCode>=48&&event.keyCode<=57" value="1" placeholder="请输入数量"  class="form-control">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default addQuantity" aria-label="Bold">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    <button type="button" class="btn btn-default reduceQuantity" aria-label="Bold">
-                        <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                </div>
-            </div>
-            <p><h3 class="text-primary text-right">总价：<mark class="totalPrice"><%= hotelDetail.Price %></mark></h3></p>
-            <p class="text-right margin-top-15">
-                <button type="button" class="btn btn-danger btn-lg alipay" style="padding-left:40px;padding-right:40px;">购买&nbsp;<span class="glyphicon glyphicon-phone" style="top:2px"></span></button>
-            </p>
+            <% if (hotelRoomDetail.length!=0) { %>
+                <% hotelRoomDetail.forEach(function(item,index){ %>
+
+                <% }) %>
+            <% } else { %>
+                <p class="lead">暂无<mark>房间</mark></p>
+            <% } %>
         </div>
     </div>
     <div class="row margin-top-15">
         <div class="col-md-12 col-sm-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#detail" aria-controls="home" role="tab" data-toggle="tab">酒店详情</a></li>
+                <li role="presentation" class="active"><a href="#detail" aria-controls="home" role="tab" data-toggle="tab">房间详情</a></li>
                 <li role="presentation"><a href="#comment" aria-controls="profile" role="tab" data-toggle="tab">酒店评论</a></li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="detail">
-                    <p class="text-success margin-top-15">所属类别：
-                        <% if (hotelDetail.Type==1) { %>
-                            > 自营
-                        <% } else { %>
-                            > 非自营
-                        <% } %>
-                    </p>
+                    <% if (hotelRoomDetail.length!=0) { %>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>房间号</th>
+                                    <th>房间图片</th>
+                                    <th>房间类型</th>
+                                    <th>房间价格</th>
+                                    <th>是否入住</th>
+                                    <th>入住时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <% hotelRoomDetail.forEach(function(item,index){ %>
+                            <tr>
+                                <th scope="row"><%= index %></th>
+                                <td><%= item.RoomCode %></td>
+                                <td>
+                                    <% item.Pictures.forEach(function(pic){ %>
+                                        <img src="<%= pic.url %>" style="width:50px;margin:10px 10px 10px 0px;"/>
+                                    <% }) %>
+                                </td>
+                                <td><%= item.BedType==1?'单人床':'双人床' %></td>
+                                <td><%= item.Price %></td>
+                                <td><%= item.IsUse==1?'已入住':'未入住' %></td>
+                                <td><%= item.UpdateTime?moment(item.UpdateTime).format('YYYY-MM-DD HH:mm:ss'):'未入住' %></td>
+                            </tr>
+                        <% }) %>
+                        </tbody>
+                        </table>
+                    <% } else { %>
+                        <p class="lead">暂无<mark>房间</mark></p>
+                    <% } %>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="comment">
                     <textarea class="form-control margin-top-15" placeholder="说点什么把..." rows="3"></textarea>
                     <div class="text-right margin-top-15">
                         <button type="button" class="btn btn-info sendComment">发送</button>
                     </div>
-                    
                     <% if (comments.length!=0) { %>
                         <% comments.forEach(function(item,index){ %>
                             <div class="media">
