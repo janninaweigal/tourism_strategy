@@ -1,0 +1,82 @@
+<% if (trains.list.length!=0) { %>
+    <div class="page-header text-info">
+        <h3>火车票情况</h3>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>车次编号</th>
+                <th>开始地点</th>
+                <th>结束地点</th>
+                <th>列车座位详情</th>
+                <th>经停站详情</th>
+                <th>到达时间</th>
+                <th>发车时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% trains.list.forEach(function(item,index){ %>
+                <tr>
+                    <th scope="row"><%= index+1 %></th>
+                    <td>
+                        <% if (item.Type==1) { %>
+                            G
+                        <% }else if (item.Type==2){ %>
+                            C
+                        <% }else if (item.Type==3){ %>
+                            Z
+                        <% }else if (item.Type==4){ %>
+                            T
+                        <% }%>
+                        <%= item.TrainCode %>
+                    </td>
+                    <td><%= item.StartPlace %></td>
+                    <td><%= item.EndPlace %></td>
+                    <td><%- item.SeatDes %></td>
+                    <td><%- item.StopOverDes %></td>
+                    <td><%= moment(item.ArriveTime).format('YYYY-MM-DD HH:mm:ss') %></td>
+                    <td><%= moment(item.DepartTime).format('YYYY-MM-DD HH:mm:ss') %></td>
+                    <td>
+                        <a href="/trainsDetailPage?id=<%= item.Id %>" class="btn btn-info" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% if (trains.count>0) { %>
+        <nav class="text-center">
+            <ul class="pagination">
+                <% if (trains.pageNo==1) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= trains.pageNo==1?'javascript:void(0)':'/'+trains.name+'?pageNo='+(parseInt(trains.pageNo)-1)%>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <% for(var i=0;i<Math.ceil(trains.count/trains.pageSize);i++){ %>
+                    <% if ((i+1)==trains.pageNo) { %>
+                        <li class="active">
+                    <% }else{ %>
+                        <li>
+                    <% } %>
+                    <a href="<%= '/'+trains.name+'?pageNo='+ (i+1) %>"><%= i+1 %></a></li>
+                <% } %>
+                <% if (trains.pageNo==Math.ceil(trains.count/trains.pageSize)) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= trains.pageNo==Math.ceil(trains.count/trains.pageSize)?'javascript:void(0)':'/'+trains.name+'?pageNo='+(parseInt(trains.pageNo)+1)%>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    <% } %>
+<% } else { %>
+    <p class="lead"><mark>没有火车票信息</mark></p>
+<% } %>

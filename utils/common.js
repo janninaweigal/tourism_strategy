@@ -100,6 +100,11 @@ export function switchNav(router) {
             router:'/hotelPage'
         },
         {
+            name:'火车票',
+            active:false,
+            router:'/trainsPage'
+        },
+        {
             name:'社区服务',
             active:false,
             router:'/communityPage'
@@ -121,6 +126,7 @@ export function commonJson(ctx){
     return {
         session: ctx.session,
         navArray: switchNav(ctx.path),
+        labels: [],
         tabList: [
             {
                 id:1,

@@ -1,5 +1,5 @@
 var router = require('koa-router')();
-import {commonJson,formatTime} from '../../utils/common';
+import {commonJson} from '../../utils/common';
 var userModel = require('../../lib/mysql.js')
 const result = require('../../json/result');
 router.get('/touristSpotPage', async(ctx, next) => {

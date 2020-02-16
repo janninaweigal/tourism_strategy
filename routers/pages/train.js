@@ -1,7 +1,51 @@
 var router = require('koa-router')();
 var userModel = require('../../lib/mysql.js')
 const result = require('../../json/result');
-import {formatTime} from '../../utils/common';
+import {formatTime,commonJson} from '../../utils/common';
+router.get('/trainsPage', async(ctx, next) => {
+    let result = commonJson(ctx)
+    const query=ctx.request.query
+    const pageNo = parseInt(query.pageNo||1)
+    result.trains = {
+        list: [],
+        count: 0,
+        name:'trainsPage',
+        pageNo:pageNo,
+        pageSize:8
+    }
+    await userModel.query("select count(1) count from train_tickets order by CreateTime").then(res=>{
+        result.trains.count = res[0].count
+    })
+    await userModel.query(`select * from train_tickets limit ${(result.trains.pageNo-1)*result.trains.pageSize},${result.trains.pageSize}`).then(res=>{
+        result.trains.list = res
+    })
+    await ctx.render('pages/trains',result)
+})
+
+// 火车票详情
+router.get('/trainsDetailPage',async(ctx,next)=>{
+    const Id=ctx.request.query.id
+    let result = commonJson(ctx)
+    result.trainsDetail = {}
+    result.comments = []
+    if(Id){
+        await userModel.findTrainById(Id).then(res=>{
+            result.trainsDetail=res[0];
+        })
+        await userModel.getTrainStationByTicketId(Id).then(res=>{
+            result.OverStations = res
+        })
+        await userModel.getTrainSeatByTicketId(Id).then(res=>{
+            result.Seats = res
+        })
+        await userModel.selectCommentByTrainId(Id).then(res=>{
+            result.comments=res
+        })
+    }
+    result.session.type = 4
+    await ctx.render('pages/trainsDetail',result)
+})
+
 router.post('/train/list', async(ctx, next) => {
     const response = Object.assign({},result)
     const searchData = ctx.request.body

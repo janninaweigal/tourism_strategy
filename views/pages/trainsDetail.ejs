@@ -1,0 +1,146 @@
+<% include ../common/header %>
+<% include ../common/nav %>
+<% include ../common/banner %>
+
+<div class="container" style="margin-bottom:48px">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <ol class="breadcrumb shadow-frame">
+                你现在正在浏览：
+                <li><a href="/">首页</a></li>
+                <li><a href="/trainsPage">火车票</a></li>
+                <li class="active">详情</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="page-header" style="text-align: center;">
+            <h1>
+                车次编号：
+                <% if (trainsDetail.Type==1) { %>
+                    G
+                <% }else if (trainsDetail.Type==2){ %>
+                    C
+                <% }else if (trainsDetail.Type==3){ %>
+                    Z
+                <% }else if (trainsDetail.Type==4){ %>
+                    T
+                <% }%>
+                <%= trainsDetail.TrainCode %>
+            </h1>
+        </div>
+        <p class="bg-info text-center text-danger" style="padding:10px;">开始地点：<%= trainsDetail.StartPlace %></p>
+        <p class="bg-info text-center text-danger" style="padding:10px;"><span class="glyphicon glyphicon-fast-forward"></span>&nbsp;&nbsp;&nbsp;结束地点：<%= trainsDetail.EndPlace %></p>
+        <hr/>
+    </div>
+    <!-- 经停站 -->
+    <div class="row">
+        <div class="page-header" style="text-align: center;">
+            <h3>经停站</h3>
+        </div>
+        <% if (OverStations.length!=0) { %>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>车站名</th>
+                        <th>到达时间</th>
+                        <th>发车时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <% OverStations.forEach(function(item,index){ %>
+                <tr>
+                    <th scope="row"><%= index+1 %></th>
+                    <td><%= item.Place %></td>
+                    <td><%= moment(item.ArriveTime).format('YYYY-MM-DD HH:mm:ss') %></td>
+                    <td><%= moment(item.DepartTime).format('YYYY-MM-DD HH:mm:ss') %></td>
+                </tr>
+            <% }) %>
+            </tbody>
+            </table>
+        <% } else { %>
+            <p class="lead">暂无<mark>经停站</mark></p>
+        <% } %>
+    </div>
+    <div class="well">
+        <p><%- trainsDetail.SeatDes %></p>
+        <hr/>
+        <p><%- trainsDetail.StopOverDes %></p>
+        <hr/>
+        <p><%= moment(trainsDetail.ArriveTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+        <p><%= moment(trainsDetail.DepartTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+    </div>
+    <!-- 列车座位 -->
+    <div class="row">
+        <div class="page-header" style="text-align: center;">
+            <h3>列车座位</h3>
+        </div>
+        <% if (Seats.length!=0) { %>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>座位类型</th>
+                        <th>价格</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <% Seats.forEach(function(item,index){ %>
+                <tr>
+                    <th scope="row"><%= index+1 %></th>
+                    <td>
+                        <% if (item.Type==0) { %>
+                            硬座
+                        <% }else if (item.Type==1){ %>
+                            硬卧
+                        <% }else if (item.Type==2){ %>
+                            软卧
+                        <% }else if (item.Type==3){ %>
+                            高级软卧
+                        <% } %>
+                    </td>
+                    <td><%= item.Price %></td>
+                    <td><%= item.Quantity %></td>
+                </tr>
+            <% }) %>
+            </tbody>
+            </table>
+        <% } else { %>
+            <p class="lead">暂无<mark>列车座位</mark></p>
+        <% } %>
+    </div>
+    <div class="row" id="comment">
+        <div class="page-header text-info">
+            <h3>评论区</h3>
+        </div>
+        <textarea class="form-control margin-top-15" placeholder="说点什么把..." rows="3"></textarea>
+        <div class="text-right margin-top-15">
+            <button type="button" class="btn btn-info sendComment">发送</button>
+        </div>
+
+        <% if (comments.length!=0) { %>
+        <% comments.forEach(function(item,index){ %>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>"
+                    style="width: 64px; height: 64px;">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading"><%= item.Username %></h4>
+                <%= item.Content %>
+                <div class="text-right">发表于：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></div>
+            </div>
+        </div>
+        <% if (comments.length-1!=index) { %>
+        <hr>
+        <% } %>
+        <% }) %>
+        <% } else { %>
+        <p class="lead">暂无<mark>评论</mark></p>
+        <% } %>
+    </div>
+</div>
+
+<% include ../common/footer %>
