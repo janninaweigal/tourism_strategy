@@ -33,6 +33,14 @@
         <p class="bg-info text-center text-danger" style="padding:10px;"><span class="glyphicon glyphicon-fast-forward"></span>&nbsp;&nbsp;&nbsp;结束地点：<%= trainsDetail.EndPlace %></p>
         <hr/>
     </div>
+    <div class="well">
+        <p><%= trainsDetail.StartPlace %>&nbsp;&nbsp;到达时间: <%= moment(trainsDetail.ArriveTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+        <p><%= trainsDetail.StartPlace %>&nbsp;&nbsp;发车时间: <%= moment(trainsDetail.DepartTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+        <hr/>
+        <p><%- trainsDetail.SeatDes %></p>
+        <hr/>
+        <p><%- trainsDetail.StopOverDes %></p>
+    </div>
     <!-- 经停站 -->
     <div class="row">
         <div class="page-header" style="text-align: center;">
@@ -62,14 +70,6 @@
         <% } else { %>
             <p class="lead">暂无<mark>经停站</mark></p>
         <% } %>
-    </div>
-    <div class="well">
-        <p><%- trainsDetail.SeatDes %></p>
-        <hr/>
-        <p><%- trainsDetail.StopOverDes %></p>
-        <hr/>
-        <p><%= moment(trainsDetail.ArriveTime).format('YYYY-MM-DD HH:mm:ss') %></p>
-        <p><%= moment(trainsDetail.DepartTime).format('YYYY-MM-DD HH:mm:ss') %></p>
     </div>
     <!-- 列车座位 -->
     <div class="row">
