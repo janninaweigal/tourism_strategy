@@ -1,0 +1,97 @@
+<% include ../common/header %>
+<% include ../common/nav %>
+<% include ../common/banner %>
+
+<div class="container" style="margin-bottom:48px">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <ol class="breadcrumb shadow-frame">
+                你现在正在浏览：
+                <li><a href="/">首页</a></li>
+                <li><a href="/touristSpotPage">旅游景点</a></li>
+                <li class="active">详情</li>
+            </ol>
+        </div>
+    </div>
+    <!-- 旅游景点 -->
+    <div class="row">
+        <div class="page-header" style="text-align: center;">
+            <h1><%- touristSpotsDetail.Name %></h1>
+        </div>
+        <% touristSpotsDetail.Pictures.forEach(function(pic){ %>
+            <img src="<%= pic.url %>" style="width:150px;height:150px;margin:10px 15px 10px 0px;"/>
+        <% }) %>
+        <div class="well"><%- touristSpotsDetail.Detail %></div>
+    </div>
+    <!-- 旅游门票 -->
+    <div class="row">
+        <% if (touristSpotsTicketDetail.length!=0) { %>
+        <div class="page-header text-info">
+            <h3>门票收费情况</h3>
+        </div>
+        <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>门票类型</th>
+                        <th>价格</th>
+                        <th>注意事项</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <% touristSpotsTicketDetail.forEach(function(item,index){ %>
+                <tr>
+                    <th scope="row"><%= index+1 %></th>
+                    <td><%= item.Type==1?'儿童票':'成人票' %></td>
+                    <td><%= item.Price %></td>
+                    <td>
+                        <% if (item.Status==1) { %>
+                            需要预约：预约时间是：<%= moment(item.AppointTime).format('YYYY-MM-DD HH:mm:ss') %><br/>
+                            剩余票数为：<%= item.Num %>
+                        <% }%>
+                    <td>
+                        <button type="button" class="btn <%= item.Status==1 ?'btn-warning':'btn-info'%> spotTicket" data-ticketid="<%= item.Id%>"><%= item.Status==1 ?'预约':'购买'%>门票&nbsp;<span class="glyphicon <%= item.Status==1 ?'glyphicon-cloud':'glyphicon-phone'%>" style="top:2px"></span></button>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+            </table>
+        <% } else { %>
+            <p class="lead">免费开放<mark>门票</mark></p>
+        <% } %>
+    </div>
+    <!-- 评论 -->
+    <div class="row" id="comment">
+        <div class="page-header text-info">
+            <h3>评论区</h3>
+        </div>
+        <textarea class="form-control margin-top-15" placeholder="说点什么把..." rows="3"></textarea>
+        <div class="text-right margin-top-15">
+            <button type="button" class="btn btn-info sendComment">发送</button>
+        </div>
+
+        <% if (comments.length!=0) { %>
+        <% comments.forEach(function(item,index){ %>
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>"
+                    style="width: 64px; height: 64px;">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading"><%= item.Username %></h4>
+                <%= item.Content %>
+                <div class="text-right">发表于：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></div>
+            </div>
+        </div>
+        <% if (comments.length-1!=index) { %>
+        <hr>
+        <% } %>
+        <% }) %>
+        <% } else { %>
+        <p class="lead">暂无<mark>评论</mark></p>
+        <% } %>
+    </div>
+</div>
+
+<% include ../common/footer %>

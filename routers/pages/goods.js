@@ -23,7 +23,6 @@ router.get('/goodsPage', async(ctx, next) => {
     await ctx.render('pages/goods',result)
 })
 
-
 // 商品详情
 router.get('/detailPage',async(ctx,next)=>{
     const Id=ctx.request.query.id

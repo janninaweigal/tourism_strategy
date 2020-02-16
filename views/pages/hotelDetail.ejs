@@ -28,13 +28,6 @@
             <p>
                 地址:<a href="javascript:void(0)"><%= hotelDetail.Address %></a>
             </p>
-            <% if (hotelRoomDetail.length!=0) { %>
-                <% hotelRoomDetail.forEach(function(item,index){ %>
-
-                <% }) %>
-            <% } else { %>
-                <p class="lead">暂无<mark>房间</mark></p>
-            <% } %>
         </div>
     </div>
     <div class="row margin-top-15">
@@ -59,12 +52,13 @@
                                     <th>房间价格</th>
                                     <th>是否入住</th>
                                     <th>入住时间</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                         <% hotelRoomDetail.forEach(function(item,index){ %>
                             <tr>
-                                <th scope="row"><%= index %></th>
+                                <th scope="row"><%= index+1 %></th>
                                 <td><%= item.RoomCode %></td>
                                 <td>
                                     <% item.Pictures.forEach(function(pic){ %>
@@ -75,6 +69,9 @@
                                 <td><%= item.Price %></td>
                                 <td><%= item.IsUse==1?'已入住':'未入住' %></td>
                                 <td><%= item.UpdateTime?moment(item.UpdateTime).format('YYYY-MM-DD HH:mm:ss'):'未入住' %></td>
+                                <td>
+                                    <button type="button" class="btn btn-info hotelAliPay" data-roomid="<%= item.Id%>">预约房间&nbsp;<span class="glyphicon glyphicon-phone" style="top:2px"></span></button>
+                                </td>
                             </tr>
                         <% }) %>
                         </tbody>

@@ -321,6 +321,68 @@ $(function () {
         var typeId=$(this).attr('data-typeId')
         window.location.href=['/search?typeId=',typeId,'&searchName=',encodeURI(searchName)].join('')
     })
+    // 酒店预约
+    $('.hotelAliPay').click(function(){
+        var Id=getQueryString("id");
+        if(Id){
+            const that = $(this)
+            const roomId = that.attr("data-roomid")
+            $.ajax({
+                url: "/room/appointRoom",
+                type: 'POST',
+                data:{
+                    hotelId:Id,
+                    roomId:roomId
+                },
+                headers:{
+                    'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+                },
+                cache: false,
+                success: function (res) {
+                    showTips('预约房间',res.msg)
+                },
+                fail: function () {
+                    showTips('预约房间','请先登录！')
+                },
+                error: function (error) {
+                    showTips('预约房间',error.responseJSON.msg)
+                }
+            })
+        }else{
+            showTips('预约房间','地址栏参数错误')
+        }
+    })
+    // 旅游景点门票
+    $('.spotTicket').click(function(){
+        var Id=getQueryString("id");
+        if(Id){
+            const that = $(this)
+            const ticketId = that.attr("data-ticketid")
+            $.ajax({
+                url: "/touristSpot/ticket",
+                type: 'POST',
+                data:{
+                    touristSpotId:Id,
+                    ticketId:ticketId
+                },
+                headers:{
+                    'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+                },
+                cache: false,
+                success: function (res) {
+                    showTips('旅游景点门票',res.msg)
+                },
+                fail: function () {
+                    showTips('旅游景点门票','请先登录！')
+                },
+                error: function (error) {
+                    showTips('旅游景点门票',error.responseJSON.msg)
+                }
+            })
+        }else{
+            showTips('旅游景点门票','地址栏参数错误')
+        }
+    })
     // 单品支付
     $('.alipay').click(function(){
         var Id=getQueryString("id");

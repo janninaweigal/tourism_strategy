@@ -9,6 +9,60 @@
             <li class="active">旅游景点</li>
         </ol>
     </div>
-    
+    <div class="row">
+        <% if (touristSpot.list.length!=0) { %>
+            <% touristSpot.list.forEach(function(item,index){ %>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3><%= item.Name %></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="bg-info" style="padding:10px"><%= item.Address %></p>
+                        <p>
+                            <% item.Pictures.forEach(function(pic){ %>
+                                <img src="<%= pic.url %>" style="width:100px;margin:10px 10px 10px 0px;"/>
+                            <% }) %>
+                        </p>
+                        <div class="well"><%= item.Detail %></div>
+                        <a href="/touristSpotsDetailPage?id=<%= item.Id %>" class="btn btn-info pull-right" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="lead"><mark>没有旅游景点信息</mark></p>
+        <% } %>
+    </div>
+    <% if (touristSpot.count>0) { %>
+        <nav class="text-center">
+            <ul class="pagination">
+                <% if (touristSpot.pageNo==1) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= touristSpot.pageNo==1?'javascript:void(0)':'/'+touristSpot.name+'?pageNo='+(parseInt(touristSpot.pageNo)-1)%>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <% for(var i=0;i<Math.ceil(touristSpot.count/touristSpot.pageSize);i++){ %>
+                    <% if ((i+1)==touristSpot.pageNo) { %>
+                        <li class="active">
+                    <% }else{ %>
+                        <li>
+                    <% } %>
+                    <a href="<%= '/'+touristSpot.name+'?pageNo='+ (i+1) %>"><%= i+1 %></a></li>
+                <% } %>
+                <% if (touristSpot.pageNo==Math.ceil(touristSpot.count/touristSpot.pageSize)) { %>
+                    <li class="disabled">
+                <% }else{ %>
+                    <li>
+                <% } %>
+                    <a href="<%= touristSpot.pageNo==Math.ceil(touristSpot.count/touristSpot.pageSize)?'javascript:void(0)':'/'+touristSpot.name+'?pageNo='+(parseInt(touristSpot.pageNo)+1)%>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    <% } %>
 </div>
 <% include ../common/footer %>

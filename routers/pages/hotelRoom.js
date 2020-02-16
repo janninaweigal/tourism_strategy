@@ -110,4 +110,48 @@ router.delete('/room/delete/:id', async(ctx, next) => {
     }
     response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
 })
+
+router.post('/room/appointRoom', async(ctx, next) => {
+    const params = ctx.request.body
+    const userId = ctx.session.id
+    let response = {
+        flag: true,
+        data: null,
+        msg: '预约成功'
+    }
+    await userModel.selectHotelRoomAppoint([params.hotelId,params.roomId,userId]).then(res=>{
+        if(res.length==1){
+            response.data = res[0]
+        }
+    }).catch(error=>{
+        response.flag = false;
+        response.msg = '预约失败,错误原因：'+error
+    })
+    if(response.flag){
+        const data = response.data
+        if(data==null){
+            //直接添加
+            await userModel.insertHotelRoomAppoint([params.hotelId,params.roomId,userId]).then(res=>{
+                response.data = res;
+            }).catch(error=>{
+                response.flag = false;
+                response.msg = '预约失败,错误原因：'+error
+            })
+        }else{
+            // 判断超过两小时
+            if(new Date().getTime()-new Date(data.CreateTime).getTime()>7200000){
+                response.flag = false;
+                response.msg = '预约时间超过两小时未支付，自动取消'
+                //直接添加
+                await userModel.deleteHotelRoomAppoint([params.hotelId,params.roomId,userId]).then(res=>{
+                    response.data = res;
+                })
+            } else if(response.data.UserId==userId){
+                response.flag = false;
+                response.msg = '已经预约过了，不能重复预约'
+            }
+        }
+    }
+    response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
+})
 module.exports = router

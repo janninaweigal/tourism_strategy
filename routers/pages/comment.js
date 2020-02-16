@@ -55,6 +55,20 @@ router.post('/comment', async(ctx, next) => {
                 })
             }
             break;
+        // 景点评论
+        case 4:
+            // 先插入评论
+            await userModel.insertTouristSpotComment([userId,id,comment]).then(res=>{
+                result.code=1
+                result.msg='评论成功'
+            })
+            if(result.code ==1){
+                // 通过id查所有评论
+                await userModel.selectCommentByTouristSpotId(id).then(res=>{
+                    result.data=res
+                })
+            }
+            break;
     }
     ctx.body = result;
 })
