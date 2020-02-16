@@ -310,16 +310,14 @@ $(function () {
             return num;
         }
     }
-    // 搜索的下拉框
-    $('.searchName').click(function(){
-        $(this).parent().parent().prev('.dropdown-toggle').html($(this).text()+'&nbsp;<span class="caret"></span>')
-        $('.searchResult').attr('data-typeId',$(this).attr('data-typeId'))
-    })
-    // 搜索按钮
+    // 目的地搜索按钮
     $('.searchResult').click(function(){
         var searchName=$(this).prev('.form-group').find('.form-control').val()
-        var typeId=$(this).attr('data-typeId')
-        window.location.href=['/search?typeId=',typeId,'&searchName=',encodeURI(searchName)].join('')
+        if(searchName){
+            window.location.href=['/searchPage?searchName=',encodeURI(searchName)].join('')
+        } else{
+            showTips('搜索','请输入目的地！')
+        }
     })
     // 酒店预约
     $('.hotelAliPay').click(function(){

@@ -10,9 +10,109 @@
                 <li class="active">搜索结果</li>
             </ol>
         </div>
-        <div class="col-md-12 col-sm-12">
-            
+    </div>
+    <!-- 旅游景点 -->
+    <div class="row">
+        <div class="page-header text-info">
+            <h3>旅游景点情况<small><a href="/touristSpotPage" style="margin-left: 15px;">更多</a></small></h3>
         </div>
+        <% if (touristSpot.length!=0) { %>
+            <% touristSpot.forEach(function(item,index){ %>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3><%= item.Name %></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="bg-info" style="padding:10px"><%= item.Address %></p>
+                        <p>
+                            <% item.Pictures.forEach(function(pic){ %>
+                                <img src="<%= pic.url %>" style="width:100px;margin:10px 10px 10px 0px;"/>
+                            <% }) %>
+                        </p>
+                        <div class="well"><%= item.Detail %></div>
+                        <a href="/touristSpotsDetailPage?id=<%= item.Id %>" class="btn btn-info pull-right" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="lead"><mark>没有搜索到旅游景点信息</mark></p>
+        <% } %>
+    </div>
+    <!-- 攻略信息 -->
+    <div class="row">
+        <div class="page-header text-info">
+            <h3>攻略信息情况<small><a href="/strategyPage" style="margin-left: 15px;">更多</a></small></h3>
+        </div>
+        <% if (strategy.length!=0) { %>
+            <% strategy.forEach(function(item,index){ %>
+                <div class="list-group">
+                    <a href="<%='/strategyDetailPage?id='+item.Id %>" class="list-group-item">
+                        <h4 class="list-group-item-heading">标题：<%= item.Title %></h4>
+                        <hr/>
+                        <% item.Pictures.forEach(function(pic){ %>
+                            <img src="<%= pic.url %>" style="width:50px;height:50px;margin:10px 10px 10px 0px;"/>
+                        <% }) %>
+                        <p class="list-group-item-text">地址：<%= item.Address %></p>
+                        <p class="list-group-item-text">发表时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                    </a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="lead"><mark>没有搜索到攻略信息</mark></p>
+        <% } %>
+    </div>
+    <!-- 火车票情况 -->
+    <div class="row">
+        <div class="page-header text-info">
+            <h3>火车票情况<small><a href="/trainsPage" style="margin-left: 15px;">更多</a></small></h3>
+        </div>
+        <% if (trains.length!=0) { %>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>车次编号</th>
+                        <th>开始地点</th>
+                        <th>结束地点</th>
+                        <th>列车座位详情</th>
+                        <th>经停站详情</th>
+                        <th>到达时间</th>
+                        <th>发车时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% trains.forEach(function(item,index){ %>
+                        <tr>
+                            <th scope="row"><%= index+1 %></th>
+                            <td>
+                                <% if (item.Type==1) { %>
+                                    G
+                                <% }else if (item.Type==2){ %>
+                                    C
+                                <% }else if (item.Type==3){ %>
+                                    Z
+                                <% }else if (item.Type==4){ %>
+                                    T
+                                <% }%>
+                                <%= item.TrainCode %>
+                            </td>
+                            <td><%= item.StartPlace %></td>
+                            <td><%= item.EndPlace %></td>
+                            <td><%- item.SeatDes %></td>
+                            <td><%- item.StopOverDes %></td>
+                            <td><%= moment(item.ArriveTime).format('YYYY-MM-DD HH:mm:ss') %></td>
+                            <td><%= moment(item.DepartTime).format('YYYY-MM-DD HH:mm:ss') %></td>
+                            <td>
+                                <a href="/trainsDetailPage?id=<%= item.Id %>" class="btn btn-info" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="lead"><mark>没有搜索到火车票信息</mark></p>
+        <% } %>
     </div>
 </div>
 <% include ../common/footer %>

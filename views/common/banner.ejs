@@ -4,26 +4,13 @@
             <img class="pull-left" src="images/logo.png" alt="logo" style="width:150px;height:130px;cursor:pointer;">
             <div class="pull-right" style="padding-top:30px">
                 <div>
-                    <span class="label label-danger">功能切换：</span>
-                    <% labels.forEach(function(label,index){ %>
-                        <% if (index<=4) { %>
-                            <a href="/search?typeId=<%= label.Id %>" title="<%= label.Name %>" class="badge badge-info"><%= label.Name %></a>
-                        <% } %>
-                    <% }) %>
+                    <span class="label label-danger">目的地：</span>
                 </div>
                 <form class="form-inline text-right" style="margin-top:3px">
                     <div class="form-group">
-                        <input class="form-control" placeholder="请输入关键词" value="" type="text" maxlength="50" autocomplete="off"/>
-                        <div class="btn-group">
-                            <ul class="dropdown-menu">
-                                <li><a href="javascript:void(0)" class="searchName" data-typeId="-1">所有消息</a></li>
-                                <% labels.forEach(function(label){ %>
-                                    <li><a href="javascript:void(0)" class="searchName" data-typeId="<%= label.Id %>"><%= label.Name %></a></li>
-                                <% }) %>
-                            </ul>
-                        </div>
+                        <input class="form-control" placeholder="请输入目的地" type="text" value="<%= searchName %>" maxlength="50" autocomplete="off"/>
                     </div>
-                    <button type="button" class="btn btn-danger searchResult" data-typeId="">搜索</button>
+                    <button type="button" class="btn btn-danger searchResult">搜索</button>
                 </form>
             </div>
         </div>

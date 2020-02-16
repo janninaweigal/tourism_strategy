@@ -22,7 +22,7 @@
             <% } %>
             <div class="list-group">
                 <% tab.list.forEach(function(i,index){ %>
-                    <a href="/goodsDetail?id=<%= i.Id %>" class="list-group-item" title="<%= i.Name %>">
+                    <a href="/<%= i.Url %>?id=<%= i.Id %>" class="list-group-item" title="<%= i.Name %>">
                         <% if(index ==0) { %>
                             <span class="badge pull-left" style="background-color:#FF858E;">&nbsp;<%= index+1 %>&nbsp;&nbsp;</span>
                         <% } else if(index==1) { %>
