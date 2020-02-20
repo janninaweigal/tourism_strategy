@@ -66,6 +66,8 @@ app.use(require('./routers/login.js').routes())
 app.use(require('./routers/register.js').routes())
 //退出登录
 app.use(require('./routers/exit.js').routes())
+// 地址
+app.use(require('./routers/address.js').routes())
 //测试api
 app.use(require('./routers/api.js').routes())
 //旅行必备
