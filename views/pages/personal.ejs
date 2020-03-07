@@ -9,13 +9,98 @@
             <li class="active">我的</li>
         </ol>
     </div>
-    <div class="row personInfo">
-        <img src="<%= session.avatar|| 'images/default.jpg' %>" title="<% session.username %>"/>
-        <input type="file" accept="image/*" class="uploadFile" name="Avatar" value=""/>
-        <div class="imgTip">点击头像进行上传</div>
-        <span class="label label-danger"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<%= session.username||'某某' %></span>
-        <span class="label label-info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;<%= session.email||'xxxxxxx@qq.com' %></span>
-        <button type="button" class="btn btn-primary" style="margin:20px 0px;">保存更改</button>
+    <div class="row">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">个人信息</a></li>
+            <li role="presentation"><a href="#myOrder" aria-controls="myOrder" role="tab" data-toggle="tab">我的订单</a></li>
+            <li role="presentation"><a href="#myAppoint" aria-controls="myAppoint" role="tab" data-toggle="tab">景点预约</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- 个人信息 -->
+            <div role="tabpanel" class="tab-pane active" id="profile">
+                <div class="personInfo">
+                    <img src="<%= session.avatar|| 'images/default.jpg' %>" title="<% session.username %>"/>
+                    <input type="file" accept="image/*" class="uploadFile" name="Avatar" value=""/>
+                    <div class="imgTip">点击头像进行上传</div>
+                    <span class="label label-danger"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<%= session.username||'某某' %></span>
+                    <span class="label label-info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;<%= session.email||'xxxxxxx@qq.com' %></span>
+                    <button type="button" class="btn btn-primary" style="margin:20px 0px;">保存更改</button>
+                </div>
+            </div>
+            <!-- 我的订单 -->
+            <div role="tabpanel" class="tab-pane text-center" id="myOrder">
+                <% if (orderList.length!=0) { %>
+                    <table class="table" style="margin-top:20px;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>商品订单号</th>
+                                    <th>商品名称</th>
+                                    <th>图片</th>
+                                    <th>价格</th>
+                                    <th>数量</th>
+                                    <th>支付总额</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% orderList.forEach(function(item,index){ %>
+                                    <tr>
+                                        <th scope="row"><%= index+1 %></th>
+                                        <td width="80"><%= item.Out_Trade_No %></td>
+                                        <td width="100"><%= item.GoodsName %></td>
+                                        <td>
+                                            <img src="<%= item.Photo %>" style="width:40px;height:40px;"/> 
+                                        </td>
+                                        <td><%= item.Price %></td>
+                                        <td><%= item.Quantity %></td>
+                                        <td width="140">RMB：<%= item.Total_Amount %>(元)</td>
+                                        <td><a href="/detailPage?id=<%= item.GoodsId %>" class="btn btn-primary" role="button">商品链接&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                <% } else { %>
+                    没有历史订单！！
+                <% } %>
+            </div>
+            <!-- 景点预约 -->
+            <div role="tabpanel" class="tab-pane text-center" id="myAppoint">
+                <% if (appointList.length!=0) { %>
+                    <table class="table" style="margin-top:20px;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>酒店名称</th>
+                                    <th>房间号</th>
+                                    <th>房间图片</th>
+                                    <th>床型</th>
+                                    <th>价格</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% appointList.forEach(function(item,index){ %>
+                                    <tr>
+                                        <th scope="row"><%= index+1 %></th>
+                                        <td width="80"><%= item.HotelName %></td>
+                                        <td width="100"><%= item.RoomCode %></td>
+                                        <td>
+                                            <% item.Pictures.forEach(function(pic){ %>
+                                                <img src="<%= pic.url %>" style="width:50px;margin:10px 10px 10px 0px;"/>
+                                            <% }) %>
+                                        </td>
+                                        <td><%= item.BedType==1?'单人床':'双人床' %></td>
+                                        <td>RMB：<%= item.Price %>(元)</td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                <% } else { %>
+                    没有历史订单！！
+                <% } %>
+            </div>
+        </div>
     </div>
 </div>
 <script src="js/personal.js"></script>

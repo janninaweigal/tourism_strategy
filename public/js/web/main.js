@@ -625,14 +625,14 @@ $(function () {
                     if(res.flag){
                         window.location.href=res.url
                     }else{
-                        alert('支付失败')
+                        alert(res.msg)
                     }
                 },
-                fail: function () {
-                    alert('支付失败')
+                fail: function (res) {
+                    alert(res.msg)
                 },
                 error: function (error) {
-                    showTips('用户评论',error.responseJSON.msg)
+                    showTips('用户支付',error.responseJSON.msg)
                 }
             })
         }else{

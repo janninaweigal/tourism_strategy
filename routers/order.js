@@ -2,6 +2,7 @@
 const router = require('koa-router')();
 const userModel = require('../lib/mysql.js')
 import {commonJson} from '../utils/common';
+import {accMul} from '../utils/num';
 // 跳转确认订单页面
 router.get('/confirmOrderPage', async(ctx, next) => {
     let result = commonJson(ctx);
@@ -22,13 +23,13 @@ router.get('/confirmOrderPage', async(ctx, next) => {
             let ss=shopcart[j]
             if(bid==ss.BookId){
                 orderList[i].Quantity=ss.Quantity
-                sum+=parseFloat(ss.Quantity*orderList[i].Price)
+                sum+=accMul(ss.Quantity,orderList[i].Price)
                 break;
             }
         }
     }
     result.orderList = orderList
-    result.sum = sum
+    result.sum = Math.floor(sum * 100) / 100
     // 根据id查询地址
     await userModel.selectUserAddress(UserId).then(res=>{
         result.addressList=res

@@ -19,11 +19,13 @@
             </div>
             <div class="col-md-8 col-sm-6 text-center">
                 <p>物品名称：<a href="/goodsDetail?id=<%= item.Id %>" class="text-danger"><%= item.Name %></a></p>
-                <p class="text-info">价格：&nbsp;<%= item.Price %></p>
+                <p class="text-danger">剩余数量：&nbsp;<%= item.Num %></p>
                 <p class="text-info">类别：&nbsp;<%= item.Type==1?'自营':'非自营' %></p>
-                <p class="text-info">数量：&nbsp;<%= item.Num %></p>
                 <p class="text-info">描述：&nbsp;<%= item.Detail %></p>
                 <p class="text-info">创建时间：&nbsp;<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                <hr/>
+                <p class="text-info">价格：&nbsp;<%= item.Price %></p>
+                <p class="text-info">您所购买的数量：&nbsp;<%= item.Quantity %></p>
             </div>
             <%- index==orderList.length-1?'<div class="col-md-12 col-sm-12 text-right lead text-danger"><hr/>总价：'+sum+'</div>':'<div class="col-md-12 col-sm-12"><hr/></div>' %>
         <% }) %>

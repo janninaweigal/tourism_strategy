@@ -55,7 +55,7 @@ app.use(require('./utils/handle.js'))
 //路由权限控制 除了path里的路径不需要验证token 其他都要
 app.use(koaJwt({
         secret: constant.secret
-    }).unless({path: [/^\/admin\/login/, /^\/register/,/^\/exit/,/^\/$/,/^\/api/,/^[\/a-zA-Z]\S+Page$/,/^\/css/,/^\/js/,/^\/json/,/^\/images/,/^\/favicon.ico/]})
+    }).unless({path: [/^\/admin\/login/, /^\/register/,/^\/order\/callback/,/^\/exit/,/^\/$/,/^\/api/,/^[\/a-zA-Z]\S+Page$/,/^\/css/,/^\/js/,/^\/json/,/^\/images/,/\/favicon.ico$/]})
 );
 //---------------路由文件
 //首页

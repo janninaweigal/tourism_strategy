@@ -53,6 +53,18 @@ router.post('/goods/list', async(ctx, next) => {
     ctx.success(response,'查询成功')
 })
 
+router.post('/goods/order/list', async(ctx, next) => {
+    const response = Object.assign({},result)
+    const searchData = ctx.request.body
+    await userModel.getGoodsOrderLength(searchData.globalName).then(res=>{
+        response.total = res[0].count
+    })
+    await userModel.getGoodsOrderList(searchData).then(res=>{
+        response.list = res
+    })
+    ctx.success(response,'查询成功')
+})
+
 router.post('/goods/insert', async(ctx, next) => {
     const params = ctx.request.body
     const Name=params.Name
