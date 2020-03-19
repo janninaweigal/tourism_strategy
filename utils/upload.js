@@ -22,22 +22,22 @@ export async function uploadSingleImg(obj){
     };
 }
 export async function uploadMultiImg(obj){
-    // 上传多个个文件
-    const files = obj.files
-    const fileArray = []
-    for (let key in files) {
-        const fileName = getFileName(files[key].name)
-      // 创建可读流
-      const reader = fs.createReadStream(files[key].path);
-      let filePath = path.join(__dirname, '../public/images/') + fileName;
-      // 创建可写流
-      const upStream = fs.createWriteStream(filePath);
-      // 可读流通过管道写入可写流
-      reader.pipe(upStream);
-      fileArray.push({
-          name:fileName,
-          url:'images/'+fileName
-      })
-    }
-    return fileArray;
+  // 上传多个个文件
+  const files = obj.files
+  const fileArray = []
+  for (let key in files) {
+      const fileName = getFileName(files[key].name)
+    // 创建可读流
+    const reader = fs.createReadStream(files[key].path);
+    let filePath = path.join(__dirname, '../public/images/') + fileName;
+    // 创建可写流
+    const upStream = fs.createWriteStream(filePath);
+    // 可读流通过管道写入可写流
+    reader.pipe(upStream);
+    fileArray.push({
+        name:fileName,
+        url:'images/'+fileName
+    })
   }
+  return fileArray;
+}
