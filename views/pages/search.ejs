@@ -11,6 +11,29 @@
             </ol>
         </div>
     </div>
+    <!-- 攻略信息 -->
+    <div class="row">
+        <div class="page-header text-info">
+            <h3>攻略信息情况<small><a href="/strategyPage" style="margin-left: 15px;">更多</a></small></h3>
+        </div>
+        <% if (strategy.length!=0) { %>
+            <% strategy.forEach(function(item,index){ %>
+                <div class="list-group">
+                    <a href="<%='/strategyDetailPage?id='+item.Id %>" class="list-group-item">
+                        <h4 class="list-group-item-heading">标题：<%= item.Title %></h4>
+                        <hr/>
+                        <% item.Pictures.forEach(function(pic){ %>
+                            <img src="<%= pic.url %>" style="width:50px;height:50px;margin:10px 10px 10px 0px;"/>
+                        <% }) %>
+                        <p class="list-group-item-text">地址：<%= item.Address %></p>
+                        <p class="list-group-item-text">发表时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
+                    </a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="lead"><mark>没有搜索到攻略信息</mark></p>
+        <% } %>
+    </div>
     <!-- 旅游景点 -->
     <div class="row">
         <div class="page-header text-info">
@@ -38,27 +61,34 @@
             <p class="lead"><mark>没有搜索到旅游景点信息</mark></p>
         <% } %>
     </div>
-    <!-- 攻略信息 -->
-    <div class="row">
+    <!-- 酒店情况 -->
+    <div class="row hotelContainer">
         <div class="page-header text-info">
-            <h3>攻略信息情况<small><a href="/strategyPage" style="margin-left: 15px;">更多</a></small></h3>
+            <h3>酒店情况<small><a href="/hotelPage" style="margin-left: 15px;">更多</a></small></h3>
         </div>
-        <% if (strategy.length!=0) { %>
-            <% strategy.forEach(function(item,index){ %>
-                <div class="list-group">
-                    <a href="<%='/strategyDetailPage?id='+item.Id %>" class="list-group-item">
-                        <h4 class="list-group-item-heading">标题：<%= item.Title %></h4>
-                        <hr/>
+        <% if (hotelList.length!=0) { %>
+            <% hotelList.forEach(function(item,index){ %>
+                <div class="col-md-12 col-sm-12 hotelItem">
+                    <div class="col-md-5 col-sm-5">
                         <% item.Pictures.forEach(function(pic){ %>
-                            <img src="<%= pic.url %>" style="width:50px;height:50px;margin:10px 10px 10px 0px;"/>
+                            <img src="<%= pic.url %>" style="width:45%;margin:10px 10px 10px 0px;"/>
                         <% }) %>
-                        <p class="list-group-item-text">地址：<%= item.Address %></p>
-                        <p class="list-group-item-text">发表时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
-                    </a>
+                    </div>
+                    <div class="col-md-7 col-sm-7">
+                        <div class="page-header">
+                            <h3><%= item.Name %><small class="pull-right">创立时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></small></h3>
+                        </div>
+                        <p class="bg-info" style="padding: 15px;"><%= item.Address %></p>
+                        <p class="text-muted"><%= item.Name %></p>
+                        <span class="label label-primary"><%= item.HasBreakfast==1?'有':'无' %>早餐</span>
+                        <span class="label label-primary"><%= item.HasWifi==1?'有':'无' %>WiFi</span>
+                        <div class="price">￥<strong><%= item.MinPrice||'暂无房间' %></strong></div>
+                        <a href="/hotelDetailPage?id=<%= item.Id %>" class="btn btn-info btn-lg pull-right" role="button">去入住&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a>
+                    </div>
                 </div>
             <% }) %>
         <% } else { %>
-            <p class="lead"><mark>没有搜索到攻略信息</mark></p>
+            <p class="lead"><mark>没有酒店信息</mark></p>
         <% } %>
     </div>
     <!-- 火车票情况 -->

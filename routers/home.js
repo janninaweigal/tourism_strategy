@@ -24,40 +24,26 @@ router.get('/', async(ctx, next)=>{
         　　return item
         })
     })
-    // 暂时写死
-    result.tabList=[
+    let tabList = [
         {
             id:1,
             name:"畅游资讯",
-            list: [
-                {
-                    Id:2,
-                    Name:'贺记蛋烘糕',
-                    Url: 'strategyDetailPage'
-                },
-                {
-                    Id:3,
-                    Name:'带1岁萌娃关西赏樱，丢了爸爸摔了手机还差点露宿街头',
-                    Url: 'strategyDetailPage'
-                },
-                {
-                    Id:5,
-                    Name:'梅里雪山69天义工旅居 这是属于我的梅里往事',
-                    Url: 'strategyDetailPage'
-                },
-                {
-                    Id:4,
-                    Name:'神秘复活节岛，世界尽头巴塔哥尼亚，来智利实现车厘子自由',
-                    Url: 'strategyDetailPage'
-                },
-                {
-                    Id:2,
-                    Name:'三坊七巷',
-                    Url: 'touristSpotsDetailPage'
-                }
-            ]
+            list: []
         }
     ]
+    await userModel.query("select Id,Title Name from strategy_info limit 1,6").then(res=>{
+        res.forEach(item=>{
+            item.Url = 'strategyDetailPage'
+            tabList[0].list.push(item)
+        })
+    })
+    // await userModel.query("select Id,Name from tourist_spots limit 0,3").then(res=>{
+    //     res.forEach(item=>{
+    //         item.Url = 'touristSpotsDetailPage'
+    //         tabList[0].list.push(item)
+    //     })
+    // })
+    result.tabList=tabList
     await ctx.render('home',result)
 })
  router.post('/uploadImg', async (ctx) => {
@@ -87,21 +73,28 @@ router.get('/searchPage', async(ctx, next) => {
     result.touristSpot = []
     if(searchName){
         // 旅游景点
-        await userModel.query(`select * from tourist_spots where Name = '${searchName}' limit 0,9`).then(res=>{
+        await userModel.query(`select * from tourist_spots where Name like '%${searchName}%' or Address like '%${searchName}%' limit 0,9`).then(res=>{
             result.touristSpot = res.map(item=>{
                 item.Pictures = JSON.parse(item.Pictures).pictures
             　　return item
             })
         })
         // 攻略信息
-        await userModel.query(`select * from strategy_info where Address like '%${searchName}%' limit 0,9`).then(res=>{
+        await userModel.query(`select * from strategy_info where Title like '%${searchName}%' or Address like '%${searchName}%' limit 0,9`).then(res=>{
             result.strategy = res.map(item=>{
                 item.Pictures = JSON.parse(item.Pictures).pictures
             　　return item
             })
         })
+        // 酒店
+        await userModel.query(`select h.*,min(Price) MinPrice from hotels h left join hotel_room r on r.HotelId = h.Id where h.Name like '%${searchName}%' or h.Address like '%${searchName}%' GROUP BY h.Id limit 0,9`).then(res=>{
+            result.hotelList = res.map(item=>{
+                item.Pictures = JSON.parse(item.Pictures).pictures
+            　　return item
+            })
+        })
         // 火车票
-        await userModel.query(`select * from train_tickets where StartPlace = '${searchName}' or EndPlace = '${searchName}' limit 0,9`).then(res=>{
+        await userModel.query(`select * from train_tickets where EndPlace = '${searchName}' limit 0,9`).then(res=>{
             result.trains = res
         })
     }
