@@ -12,15 +12,17 @@
     <div class="row">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">个人信息</a></li>
-            <li role="presentation"><a href="#myOrder" aria-controls="myOrder" role="tab" data-toggle="tab">我的订单</a></li>
-            <li role="presentation"><a href="#myAppoint" aria-controls="myAppoint" role="tab" data-toggle="tab">景点预约</a></li>
+            <li role="presentation"><a href="#myOrder" aria-controls="myOrder" role="tab" data-toggle="tab">旅行订单</a></li>
+            <li role="presentation"><a href="#myStrategy" aria-controls="mySpots" role="tab" data-toggle="tab">攻略信息</a></a></li>
+            <li role="presentation"><a href="#myAppoint" aria-controls="myAppoint" role="tab" data-toggle="tab">酒店信息</a></li>
+            <li role="presentation"><a href="#mySpots" aria-controls="mySpots" role="tab" data-toggle="tab">景点订单</a></a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
             <!-- 个人信息 -->
             <div role="tabpanel" class="tab-pane active" id="profile">
                 <div class="personInfo">
-                    <img src="<%= session.avatar|| 'images/default.jpg' %>" title="<% session.username %>"/>
+                    <img src="<%= session.avatar|| 'images/default.png' %>" title="<% session.username %>"/>
                     <input type="file" accept="image/*" class="uploadFile" name="Avatar" value=""/>
                     <div class="imgTip">点击头像进行上传</div>
                     <span class="label label-danger"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<%= session.username||'某某' %></span>
@@ -28,7 +30,7 @@
                     <button type="button" class="btn btn-primary" style="margin:20px 0px;">保存更改</button>
                 </div>
             </div>
-            <!-- 我的订单 -->
+            <!-- 旅行订单 -->
             <div role="tabpanel" class="tab-pane text-center" id="myOrder">
                 <% if (orderList.length!=0) { %>
                     <table class="table" style="margin-top:20px;">
@@ -62,10 +64,44 @@
                             </tbody>
                         </table>
                 <% } else { %>
-                    没有历史订单！！
+                    没有旅行订单！！
                 <% } %>
             </div>
-            <!-- 景点预约 -->
+            <!-- 攻略信息 -->
+            <div role="tabpanel" class="tab-pane text-center" id="myStrategy">
+                <div class="text-left" style="margin-top:10px">
+                    <button type="button" class="btn btn-primary addStrategy" style="margin-bottom: 15px;">添加旅游信息</button>
+                </div>
+                <% if (strategyList.length!=0) { %>
+                    <table class="table" style="margin-top:20px;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>标题</th>
+                                <th>地点</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% strategyList.forEach(function(item,index){ %>
+                                <tr>
+                                    <th scope="row"><%= index+1 %></th>
+                                    <td width="80"><%= item.Title %></td>
+                                    <td><%= item.Address %></td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary editStrategy" data-id="<%= item.Id %>">编辑</button>
+                                        <button type="button" class="btn btn-danger removeStrategy" data-id="<%= item.Id %>">删除</button>
+                                        <a href="/strategyDetailPage?id=<%= item.Id %>" class="btn btn-info" role="button">查看</a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    没有攻略信息！！
+                <% } %>
+            </div>
+            <!-- 酒店信息 -->
             <div role="tabpanel" class="tab-pane text-center" id="myAppoint">
                 <% if (appointList.length!=0) { %>
                     <table class="table" style="margin-top:20px;">
@@ -77,13 +113,16 @@
                                     <th>房间图片</th>
                                     <th>床型</th>
                                     <th>价格</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <% appointList.forEach(function(item,index){ %>
                                     <tr>
                                         <th scope="row"><%= index+1 %></th>
-                                        <td width="80"><%= item.HotelName %></td>
+                                        <td width="80">
+                                            <a href="/hotelDetailPage?id=<%= item.HotelId %>"><%= item.HotelName %></a>
+                                        </td>
                                         <td width="100"><%= item.RoomCode %></td>
                                         <td>
                                             <% item.Pictures.forEach(function(pic){ %>
@@ -92,15 +131,93 @@
                                         </td>
                                         <td><%= item.BedType==1?'单人床':'双人床' %></td>
                                         <td>RMB：<%= item.Price %>(元)</td>
+                                        <td>
+                                            <% if (item.IsUse==0) { %>
+                                                <button type="button" class="btn btn-primary payRoomAppoint" data-id="<%= item.Id %>">支付</button>
+                                                <button type="button" class="btn btn-danger deleteRoomAppoint" data-id="<%= item.Id %>">取消预约</button>
+                                            <% } else { %>
+                                                <button type="button" class="btn btn-primary checkoutRoom" data-id="<%= item.Id %>">退房</button>
+                                            <% } %>
+                                        </td>
                                     </tr>
                                 <% }) %>
                             </tbody>
                         </table>
                 <% } else { %>
-                    没有历史订单！！
+                    没有酒店信息！！
+                <% } %>
+            </div>
+            <!-- 景点预约 -->
+            <div role="tabpanel" class="tab-pane text-center" id="mySpots">
+                <% if (spotList.length!=0) { %>
+                    <table class="table" style="margin-top:20px;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>景点名称</th>
+                                    <th>图片</th>
+                                    <th>门票类型</th>
+                                    <th>价格</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% spotList.forEach(function(item,index){ %>
+                                    <tr>
+                                        <th scope="row"><%= index+1 %></th>
+                                        <td width="80">
+                                            <a href="/touristSpotsDetailPage?id=<%= item.Id %>"><%= item.SpotName %></a>
+                                        </td>
+                                        <td>
+                                            <% item.Pictures.forEach(function(pic){ %>
+                                                <img src="<%= pic.url %>" style="width:50px;margin:10px 10px 10px 0px;"/>
+                                            <% }) %>
+                                        </td>
+                                        <td><%= item.Type==1?'儿童票':'成人票' %></td>
+                                        <td>RMB：<%= item.Price %>(元)</td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                <% } else { %>
+                    没有景点预约！！
                 <% } %>
             </div>
         </div>
+    </div>
+</div>
+<!-- 攻略信息编辑框的模态框 -->
+<div id="strategyModal" class="modal fade bs-example-modal-lg" tabindex="3">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                  <label for="strategyTitle"><span style="color:red">*</span>标题</label>
+                  <input class="form-control" id="strategyTitle" placeholder="请输入标题">
+                </div>
+                <div class="form-group">
+                  <label for="strategyAddress"><span style="color:red">*</span>地址</label>
+                  <input class="form-control" id="strategyAddress" placeholder="请输入地址">
+                </div>
+                <!-- <div class="form-group">
+                  <label for="strategyPic">图片</label>
+                  <input type="file" name="strategyPic[]" id="strategyPic" multiple>
+                </div> -->
+                <div class="form-group">
+                    <label><span style="color:red">*</span>内容</label>
+                    <textarea data-provide="markdown" rows="10" class="strategyContent"></textarea>
+                  </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary saveStrategy">保存</button>
+        </div>
+      </div>
     </div>
 </div>
 <script src="js/personal.js"></script>

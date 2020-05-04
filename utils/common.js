@@ -160,7 +160,6 @@ export async function alipay(totalAmount,subject, body){
         subject: subject,
         body: body,
     });
-
     const result =await alipaySdk.exec('alipay.trade.page.pay', {}, {
         // 通过 formData 设置请求参数
         formData: formData,

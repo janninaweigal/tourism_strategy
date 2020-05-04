@@ -32,12 +32,12 @@ CREATE TABLE `_mysql_session_store`  (
 -- Records of _mysql_session_store
 -- ----------------------------
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:-B_B7O9A0SXEjm-d1KGPNE-PTSgarZQX', 1581698157217, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/1581428563010.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1,\"type\":2}');
-INSERT INTO `_mysql_session_store` VALUES ('USER_SID:-jGmMt7Zc8rrAAXJ-yq-gbwLY7JwIBZw', 1580906404690, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.jpg\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
+INSERT INTO `_mysql_session_store` VALUES ('USER_SID:-jGmMt7Zc8rrAAXJ-yq-gbwLY7JwIBZw', 1580906404690, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:09Di5JLkT1bNA6fRzqzJT-shgvKdyT89', 1581734775955, '{\"type\":2}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:5EPjqm16ArXJD-Q5B2c_Jz2jowJ0HwTH', 1581253180549, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:9l_5Zgrt5SuJ1TVzFJitz52ZShfO4iAr', 1581336047182, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
-INSERT INTO `_mysql_session_store` VALUES ('USER_SID:CQ6FfgT9i2FvjhP5ZI9YNKWWrE_tFlQV', 1580734213249, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.jpg\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
-INSERT INTO `_mysql_session_store` VALUES ('USER_SID:DwswNI7RU5Gd2L9KXd0Qq3Op8WjPtJo8', 1580873021180, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.jpg\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
+INSERT INTO `_mysql_session_store` VALUES ('USER_SID:CQ6FfgT9i2FvjhP5ZI9YNKWWrE_tFlQV', 1580734213249, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
+INSERT INTO `_mysql_session_store` VALUES ('USER_SID:DwswNI7RU5Gd2L9KXd0Qq3Op8WjPtJo8', 1580873021180, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"/images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:IuHimSjabEFmP76skUs3_so0GIaYVz92', 1581300404463, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:MGVc1s9nL_WTz1W0SW5tNU0F_ws8yNva', 1581002199344, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
 INSERT INTO `_mysql_session_store` VALUES ('USER_SID:PMnN3RmLOfB0dWclgf9_rE4ymj-huttr', 1581336148096, '{\"id\":20,\"username\":\"admin\",\"avatar\":\"images/default.png\",\"email\":\"111@qqq.com\",\"IsAdmin\":1}');
@@ -399,7 +399,7 @@ CREATE TABLE `users`  (
   `Id` int(200) NOT NULL AUTO_INCREMENT,
   `Username` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
   `Password` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '8b430f20f8641d94f71fdda086d02660' COMMENT '密码',
-  `Avatar` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '/images/default.jpg' COMMENT '用户图像',
+  `Avatar` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '/images/default.png' COMMENT '用户图像',
   `Email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户邮箱',
   `IsAdmin` int(1) DEFAULT 0 COMMENT '是否为管理员',
   `CreateTime` datetime(0) DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',

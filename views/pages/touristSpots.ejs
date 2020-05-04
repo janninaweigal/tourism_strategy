@@ -18,9 +18,9 @@
                     </div>
                     <div class="panel-body">
                         <p class="bg-info" style="padding:10px"><%= item.Address %></p>
-                        <p>
+                        <p class="text-center">
                             <% item.Pictures.forEach(function(pic){ %>
-                                <img src="<%= pic.url %>" style="width:100px;margin:10px 10px 10px 0px;"/>
+                                <img src="<%= pic.url %>" style="width:120px;height:100px;margin:10px 10px 10px 0px;"/>
                             <% }) %>
                         </p>
                         <div class="well"><%= item.Detail %></div>

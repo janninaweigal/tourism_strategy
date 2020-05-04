@@ -2,11 +2,12 @@
     <% strategy.list.forEach(function(item,index){ %>
         <div class="list-group">
             <a href="<%='/strategyDetailPage?id='+item.Id %>" class="list-group-item">
-                <h4 class="list-group-item-heading">标题：<%= item.Title %></h4>
-                <hr/>
-                <% item.Pictures.forEach(function(pic){ %>
-                    <img src="<%= pic.url %>" style="width:50px;height:50px;margin:10px 10px 10px 0px;"/>
-                <% }) %>
+                <h4 class="list-group-item-heading text-center">标题：<%= item.Title %></h4>
+                <p class="text-center">
+                    <% item.Pictures.forEach(function(pic){ %>
+                        <img src="<%= pic.url %>" style="width:120px;height:100px;margin:10px 10px 10px 0px;"/>
+                    <% }) %>
+                </p>
                 <p class="list-group-item-text">地址：<%= item.Address %></p>
                 <p class="list-group-item-text">发表时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
             </a>

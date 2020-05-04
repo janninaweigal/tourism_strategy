@@ -18,7 +18,7 @@ router.get('/strategyPage', async(ctx, next) => {
     })
     await userModel.query(`select * from strategy_info limit ${(result.strategy.pageNo-1)*result.strategy.pageSize},${result.strategy.pageSize}`).then(res=>{
         result.strategy.list = res.map(item=>{
-            item.Pictures = JSON.parse(item.Pictures).pictures
+            item.Pictures = item.Pictures?JSON.parse(item.Pictures).pictures:{"pictures":[]}
         　　return item
         })
     })
@@ -33,9 +33,11 @@ router.get('/strategyDetailPage',async(ctx,next)=>{
     result.comments = []
     if(Id){
         await userModel.findStrategyById(Id).then(res=>{
-            let data = res[0]
-            data.Pictures = JSON.parse(data.Pictures).pictures
-            result.strategyDetail=data
+            if(res.length==1){
+                let data = res[0]
+                data.Pictures = data.Pictures?JSON.parse(data.Pictures).pictures:{"pictures":[]}
+                result.strategyDetail=data
+            }
         })
         await userModel.selectCommentByStrategyId(Id).then(res=>{
             result.comments=res
@@ -59,13 +61,14 @@ router.post('/strategy/list', async(ctx, next) => {
 
 router.post('/strategy/insert', async(ctx, next) => {
     const params = ctx.request.body
+    const UserId=ctx.session.id;
     let response = {
         flag: true,
         data: null,
         msg: '添加成功'
     }
     // 添加攻略信息
-    await userModel.insertStrategy([params.Title,params.Pictures,params.Content,params.Address]).then(res=>{
+    await userModel.insertStrategy([params.Title,params.Pictures,params.Content,params.Address,UserId]).then(res=>{
         response.data = res;
     }).catch(error=>{
         response.flag = false;
@@ -129,5 +132,53 @@ router.delete('/strategy/delete/:id', async(ctx, next) => {
         })
     }
     flag?ctx.success(null,'删除成功'):ctx.error('删除失败');
+})
+
+// 酒店房间登记个人信息
+router.post('/strategy/checkin', async(ctx, next) => {
+    const params = ctx.request.body
+    const userId = ctx.session.id
+    const name  = params.name
+    const roomId = params.roomId
+    const idCardNumber  = params.idCardNumber
+    const cellPhone = params.cellPhone
+    let response = {
+        flag: false,
+        data: null,
+        msg: "购买失败"
+    }
+    if(name&&idCardNumber&&cellPhone&&roomId){
+        await userModel.findRoomById(roomId).then(res=>{
+            if(res.length!=1){
+                response.flag = false
+            }
+        }).catch(error=>{
+            response.flag = false;
+            response.msg = '购买失败,错误原因：'+error
+        })
+        if(response.flag){
+            // 登记过，不能再登记了  ticketId userId
+            await userModel.findTouristSpotTicketOrderCount(userId,ticketId).then(res=>{
+                if(res[0].count==1){
+                    response.flag = false
+                    response.msg = '已经登记过了，无需继续登记'
+                }
+            })
+            // 登记个人信息、并且票数减一
+            if(response.flag){
+                await userModel.insertTouristSpotTicketOrder([ticketId,name,idCardNumber,cellPhone,userId]).then(res=>{
+                    response.flag = true
+                    response.msg = '购买成功'
+                })
+            }
+            if(response.flag){
+                await userModel.updateSpotTicketNumberById(ticketId).then(res=>{
+                    response.flag = true
+                    response.msg = '购买成功'
+                })
+            }
+        }
+    }
+    response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
 })
 module.exports = router

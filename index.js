@@ -46,6 +46,10 @@ app.use(views(path.join(__dirname, './views'),{
 // koa-body与koa-bodyparser一定不要同时使用！会报错！
 app.use(koaBody({
     multipart: true,
+    formLimit: "10mb",
+    jsonLimit: "10mb",
+    textLimit: "10mb",
+    enableTypes: ['json', 'form', 'text'],
     formidable: {
         maxFileSize: 200*1024*1024   // 设置上传文件大小最大限制，默认2M
     }
@@ -78,6 +82,8 @@ app.use(require('./routers/pages/comment.js').routes())
 app.use(require('./routers/pages/strategy.js').routes())
 //旅游景点
 app.use(require('./routers/pages/touristSpot.js').routes())
+//旅游景点门票
+app.use(require('./routers/pages/touristSpotTicket.js').routes())
 //订酒店
 app.use(require('./routers/pages/hotel.js').routes())
 //酒店房间

@@ -44,7 +44,7 @@
                     <% strategyList.forEach(function(item,index){ %>
                         <div class="col-md-4">
                             <div class="thumbnail">
-                                <img src="<%= item.Pictures[0].url %>" title="<%= item.Title %>" alt="<%= item.Title %>" width="100%">
+                                <img src="<%= item.Pictures.length==0?'':item.Pictures[0].url %>" title="<%= item.Title %>" alt="<%= item.Title %>" width="100%">
                                 <div class="caption">
                                     <p>标题：<a href="/strategyDetailPage?id=<%= item.Id %>" title="<%= item.Title %>"><%= item.Title.length>7?item.Title.substring(0,7)+'...':item.Title %></a><br/>描述：<%= item.Detail %><br/>创建时间：<%= moment(item.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
                                     <div class="text-right"><a href="/strategyDetailPage?id=<%= item.Id %>" class="btn btn-primary" role="button">查看详情&nbsp;<span class="glyphicon glyphicon-hand-right"></span></a></div>

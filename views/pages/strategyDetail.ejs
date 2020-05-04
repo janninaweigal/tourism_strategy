@@ -18,9 +18,11 @@
             <h1><%- strategyDetail.Title %></h1>
             <p class="text-danger text-right">发表时间：<%= moment(strategyDetail.CreateTime).format('YYYY-MM-DD HH:mm:ss') %></p>
         </div>
-        <% strategyDetail.Pictures.forEach(function(pic){ %>
-            <img src="<%= pic.url %>" style="width:150px;height:150px;margin:10px 15px 10px 0px;"/>
-        <% }) %>
+        <p class="text-center">
+            <% strategyDetail.Pictures.forEach(function(pic){ %>
+                <img src="<%= pic.url %>" style="width:150px;height:150px;margin:10px 15px 10px 0px;"/>
+            <% }) %>
+        </p>
         <div class="well"><%- strategyDetail.Content %></div>
     </div>
 
@@ -37,7 +39,7 @@
         <% comments.forEach(function(item,index){ %>
         <div class="media">
             <div class="media-left">
-                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>"
+                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.png' %>"
                     style="width: 64px; height: 64px;">
             </div>
             <div class="media-body">

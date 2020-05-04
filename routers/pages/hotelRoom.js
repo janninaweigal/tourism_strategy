@@ -117,9 +117,9 @@ router.post('/room/appointRoom', async(ctx, next) => {
     let response = {
         flag: true,
         data: null,
-        msg: '预约成功'
+        msg: '预约成功，有效期两小时'
     }
-    await userModel.selectHotelRoomAppoint([params.hotelId,params.roomId,userId]).then(res=>{
+    await userModel.selectHotelRoomAppoint([params.roomId,userId]).then(res=>{
         if(res.length==1){
             response.data = res[0]
         }
@@ -131,7 +131,7 @@ router.post('/room/appointRoom', async(ctx, next) => {
         const data = response.data
         if(data==null){
             //直接添加
-            await userModel.insertHotelRoomAppoint([params.hotelId,params.roomId,userId]).then(res=>{
+            await userModel.insertHotelRoomAppoint([params.roomId,userId,params.name,params.idCardNumber,params.phone,params.appointTime]).then(res=>{
                 response.data = res;
             }).catch(error=>{
                 response.flag = false;
@@ -142,16 +142,102 @@ router.post('/room/appointRoom', async(ctx, next) => {
             if(new Date().getTime()-new Date(data.CreateTime).getTime()>7200000){
                 response.flag = false;
                 response.msg = '预约时间超过两小时未支付，自动取消'
-                //直接添加
-                await userModel.deleteHotelRoomAppoint([params.hotelId,params.roomId,userId]).then(res=>{
+                //删除掉
+                await userModel.deleteHotelRoomAppoint([params.roomId,userId]).then(res=>{
                     response.data = res;
                 })
             } else if(response.data.UserId==userId){
                 response.flag = false;
-                response.msg = '已经预约过了，不能重复预约'
+                response.msg = '已经预约过了，请到个人中心支付'
             }
         }
     }
     response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
 })
+// 取消预约
+router.delete('/room/deleteAppointRoom/:id', async(ctx, next) => {
+    const id=ctx.params.id
+    let response = {
+        flag: true,
+        data: null,
+        msg: '取消成功'
+    }
+    //删除预约
+    await userModel.deleteHotelRoomAppointById(id).then(res=>{
+        response.data = res;
+    })
+    response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
+})
+// 预约之后支付
+router.post('/room/appointRoomOrder/:id', async(ctx, next) => {
+    const id=ctx.params.id
+    let response = {
+        flag: true,
+        data: null,
+        msg: '支付成功'
+    }
+    // 找出房间
+    await userModel.selectHotelRoomAppointById(id).then(res=>{
+        response.data = res[0];
+    }).catch(error=>{
+        response.flag = false;
+        response.msg = '支付失败,错误原因：'+error
+    })
+    if(response.flag){
+        if(response.data.IsUse==0){
+            await userModel.updateRoomUseById(1,response.data.RoomId).then(res=>{
+                
+            }).catch(error=>{
+                response.flag = false;
+                response.msg = '支付失败,错误原因：'+error
+            })
+            // 添加订单
+            await userModel.insertHotelRoomOrder([id]).then(res=>{
+                response.data = res;
+            }).catch(error=>{
+                response.flag = false;
+                response.msg = '支付失败,错误原因：'+error
+            })
+        } else {
+            response.flag = false;
+            response.msg = '支付失败,该房间已被人预先支付'
+        }
+    }
+    
+    response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
+})
+
+// 退房
+router.put('/room/checkoutRoom/:id', async(ctx, next) => {
+    const id=ctx.params.id
+    let response = {
+        flag: true,
+        data: null,
+        msg: '退房成功'
+    }
+    // 找出房间
+    await userModel.selectHotelRoomAppointById(id).then(res=>{
+        response.data = res[0];
+    }).catch(error=>{
+        response.flag = false;
+        response.msg = '退房失败,错误原因：'+error
+    })
+    if(response.flag){
+        // 删除预约信息
+        await userModel.deleteHotelRoomAppointById(id).then(res=>{
+        }).catch(error=>{
+            response.flag = false;
+            response.msg = '退房失败,错误原因：'+error
+        })
+        // 房间使用变0
+        await userModel.updateRoomUseById(0,response.data.RoomId).then(res=>{
+        }).catch(error=>{
+            response.flag = false;
+            response.msg = '退房失败,错误原因：'+error
+        })
+    }
+    
+    response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
+})
+
 module.exports = router

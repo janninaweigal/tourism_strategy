@@ -50,8 +50,7 @@
                                     <th>房间图片</th>
                                     <th>房间类型</th>
                                     <th>房间价格</th>
-                                    <th>是否入住</th>
-                                    <th>入住时间</th>
+                                    <th>是否空闲</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -67,10 +66,11 @@
                                 </td>
                                 <td><%= item.BedType==1?'单人床':'双人床' %></td>
                                 <td><%= item.Price %></td>
-                                <td><%= item.IsUse==1?'已入住':'未入住' %></td>
-                                <td><%= item.UpdateTime?moment(item.UpdateTime).format('YYYY-MM-DD HH:mm:ss'):'未入住' %></td>
+                                <td><%= item.IsUse==1?'有人':'空闲' %></td>
                                 <td>
-                                    <button type="button" class="btn btn-info hotelAliPay" data-roomid="<%= item.Id%>">预约房间&nbsp;<span class="glyphicon glyphicon-phone" style="top:2px"></span></button>
+                                    <% if (item.IsUse==0) { %>
+                                        <button type="button" class="btn btn-info hotelAliPay" data-roomid="<%= item.Id%>">预约房间&nbsp;<span class="glyphicon glyphicon-phone" style="top:2px"></span></button>
+                                    <% } %>
                                 </td>
                             </tr>
                         <% }) %>
@@ -89,7 +89,7 @@
                         <% comments.forEach(function(item,index){ %>
                             <div class="media">
                                 <div class="media-left">
-                                    <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>" style="width: 64px; height: 64px;">
+                                    <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.png' %>" style="width: 64px; height: 64px;">
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading"><%= item.Username %></h4>
@@ -105,6 +105,52 @@
                         <p class="lead">暂无<mark>评论</mark></p>
                     <% } %>
                 </div>
+                <!-- 登记个人信息弹窗 -->
+                <div id="hotelRoomModal" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title text-center">登记个人信息</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" id="loginForm">
+                                    <div class="form-group">
+                                        <label for="h_name">姓名</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                            <input type="text" class="form-control" id="h_name" name="h_name" placeholder="请输入姓名" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="h_idCardNumber">身份证号</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"></span></span>
+                                            <input type="text" class="form-control" id="h_idCardNumber" name="h_idCardNumber" placeholder="请输入身份证号" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="h_cellPhone">手机号码</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+                                            <input type="text" class="form-control" id="h_cellPhone" name="h_cellPhone" placeholder="请输入手机号码" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="h_appointTime">预约时间</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <input type="text" class="form-control" id="h_appointTime" name="h_appointTime" placeholder="请选择预约时间" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-button-group">
+                                        <button type="button" class="btn btn-primary btn-block" id="confirmHotelRoomBtn">登记</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
             </div>
         </div>
     </div>

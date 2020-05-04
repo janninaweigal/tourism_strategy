@@ -18,9 +18,11 @@
         <div class="page-header" style="text-align: center;">
             <h1><%- touristSpotsDetail.Name %></h1>
         </div>
-        <% touristSpotsDetail.Pictures.forEach(function(pic){ %>
-            <img src="<%= pic.url %>" style="width:150px;height:150px;margin:10px 15px 10px 0px;"/>
-        <% }) %>
+        <p class="text-center">
+            <% touristSpotsDetail.Pictures.forEach(function(pic){ %>
+                <img src="<%= pic.url %>" style="width:150px;height:150px;margin:10px 15px 10px 0px;"/>
+            <% }) %>
+        </p>
         <div class="well"><%- touristSpotsDetail.Detail %></div>
     </div>
     <!-- 旅游门票 -->
@@ -48,15 +50,56 @@
                     <td>
                         <% if (item.Status==1) { %>
                             需要预约：预约时间是：<%= moment(item.AppointTime).format('YYYY-MM-DD HH:mm:ss') %><br/>
-                            剩余票数为：<%= item.Num %>
                         <% }%>
+                        剩余票数为：<%= item.Num %>
                     <td>
-                        <button type="button" class="btn <%= item.Status==1 ?'btn-warning':'btn-info'%> spotTicket" data-ticketid="<%= item.Id%>"><%= item.Status==1 ?'预约':'购买'%>门票&nbsp;<span class="glyphicon <%= item.Status==1 ?'glyphicon-cloud':'glyphicon-phone'%>" style="top:2px"></span></button>
+                        <% if (item.Num!=0) { %>
+                            <button type="button" class="btn <%= item.Status==1 ?'btn-warning':'btn-info'%> spotTicket" data-ticketid="<%= item.Id%>" data-status="<%= item.Status%>"><%= item.Status==1 ?'预约':'购买'%>门票&nbsp;<span class="glyphicon <%= item.Status==1 ?'glyphicon-cloud':'glyphicon-phone'%>" style="top:2px"></span></button>
+                        <% }%>
                     </td>
                 </tr>
             <% }) %>
             </tbody>
             </table>
+            <!-- 登记个人信息弹窗 -->
+            <div id="spotModal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title text-center">登记个人信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" id="loginForm">
+                                <div class="form-group">
+                                    <label for="s_name">姓名</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                        <input type="text" class="form-control" id="s_name" name="s_name" placeholder="请输入姓名" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="s_idCardNumber">身份证号</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"></span></span>
+                                        <input type="text" class="form-control" id="s_idCardNumber" name="s_idCardNumber" placeholder="请输入身份证号" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="s_cellPhone">手机号码</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+                                        <input type="text" class="form-control" id="s_cellPhone" name="s_cellPhone" placeholder="请输入手机号码" required/>
+                                    </div>
+                                </div>
+                                <div class="form-button-group">
+                                    <button type="button" class="btn btn-primary btn-block" id="confirmSportBtn">登记</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         <% } else { %>
             <p class="lead">免费开放<mark>门票</mark></p>
         <% } %>
@@ -75,7 +118,7 @@
         <% comments.forEach(function(item,index){ %>
         <div class="media">
             <div class="media-left">
-                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.jpg' %>"
+                <img class="media-object" alt="<%= item.Username %>" src="<%= item.Avatar||'images/default.png' %>"
                     style="width: 64px; height: 64px;">
             </div>
             <div class="media-body">

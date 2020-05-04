@@ -116,7 +116,9 @@ $(function () {
                 success: function (res) {
                     if(res.flag){
                         showModalHide('#registerModal');
-                        location.replace(location)
+                        setTimeout(()=>{
+                            location.replace(location)
+                        },1000)
                     }
                     showTips('用户注册',res.msg)
                 },
@@ -157,7 +159,9 @@ $(function () {
                     if(res.code==1){
                         sessionStorage.setItem('webToken',res.data.token)
                         showModalHide('#loginModal');
-                        location.replace(location)
+                        setTimeout(()=>{
+                            location.replace(location)
+                        },1000)
                     }else{
                         showTips('用户登录',res.msg)
                     }
@@ -319,43 +323,203 @@ $(function () {
             showTips('搜索','请输入目的地！')
         }
     })
-    // 酒店预约
+    // 个人信息，酒店信息-退房
+    $('.checkoutRoom').click(function(){
+        const id = $(this).attr("data-id")
+        $.ajax({
+            url: "/room/checkoutRoom/"+id,
+            type: 'PUT',
+            headers:{
+                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+            },
+            cache: false,
+            success: function (res) {
+                showTips('酒店信息',res.msg)
+                if(res.code==1){
+                    setTimeout(()=>{
+                        location.replace(location)
+                    },1000)
+                }
+            },
+            fail: function () {
+                showTips('酒店信息','请先登录！')
+            },
+            error: function (error) {
+                showTips('酒店信息',error.responseJSON.msg)
+            }
+        })
+    })
+    // 个人信息，酒店信息-支付
+    $('.payRoomAppoint').click(function(){
+        const id = $(this).attr("data-id")
+        $.ajax({
+            url: "/room/appointRoomOrder/"+id,
+            type: 'POST',
+            headers:{
+                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+            },
+            cache: false,
+            success: function (res) {
+                showTips('酒店信息',res.msg)
+                if(res.code==1){
+                    setTimeout(()=>{
+                        location.replace(location)
+                    },1000)
+                }
+            },
+            fail: function () {
+                showTips('酒店信息','请先登录！')
+            },
+            error: function (error) {
+                showTips('酒店信息',error.responseJSON.msg)
+            }
+        })
+    })
+    // 个人信息，酒店信息-删除
+    $('.deleteRoomAppoint').click(function(){
+        const id = $(this).attr("data-id")
+        $.ajax({
+            url: "/room/deleteAppointRoom/"+id,
+            type: 'DELETE',
+            headers:{
+                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+            },
+            cache: false,
+            success: function (res) {
+                showTips('酒店信息',res.msg)
+                if(res.code==1){
+                    setTimeout(()=>{
+                        location.replace(location)
+                    },1000)
+                }
+            },
+            fail: function () {
+                showTips('酒店信息','请先登录！')
+            },
+            error: function (error) {
+                showTips('酒店信息',error.responseJSON.msg)
+            }
+        })
+    })
+    // 酒店信息
     $('.hotelAliPay').click(function(){
         var Id=getQueryString("id");
         if(Id){
             const that = $(this)
             const roomId = that.attr("data-roomid")
-            $.ajax({
-                url: "/room/appointRoom",
-                type: 'POST',
-                data:{
-                    hotelId:Id,
-                    roomId:roomId
-                },
-                headers:{
-                    'Authorization':'Bearer '+sessionStorage.getItem('webToken')
-                },
-                cache: false,
-                success: function (res) {
-                    showTips('预约房间',res.msg)
-                },
-                fail: function () {
-                    showTips('预约房间','请先登录！')
-                },
-                error: function (error) {
-                    showTips('预约房间',error.responseJSON.msg)
-                }
+            $('#h_appointTime').datetimepicker({
+                language: "zh-CN"
             })
+            // 姓名、身份证号、手机号
+            showModalOpen('#hotelRoomModal');
+            $("#confirmHotelRoomBtn").attr("roomId",roomId)
         }else{
             showTips('预约房间','地址栏参数错误')
         }
     })
+    // 酒店房间登记个人信息
+    $('#confirmHotelRoomBtn').click(function () {
+        const name=$('#h_name').val();
+        const roomId = $(this).attr("roomId")
+        const idCardNumber=$('#h_idCardNumber').val();
+        const phone=$('#h_cellPhone').val();
+        const appointTime=$('#h_appointTime').val();
+        if(roomId){
+            if(name&&idCardNumber&&phone){
+                $.ajax({
+                    url: "/room/appointRoom",
+                    type: 'POST',
+                    data:{
+                        roomId,
+                        name,
+                        idCardNumber,
+                        phone,
+                        appointTime
+                    },
+                    headers:{
+                        'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+                    },
+                    cache: false,
+                    success: function (res) {
+                        showTips('登记信息',res.msg)
+                        if(res.code==1){
+                            showModalHide('#hotelRoomModal');
+                            setTimeout(()=>{
+                                location.replace(location)
+                            },1000)
+                        }
+                    },
+                    fail: function () {
+                        showTips('登记信息','请先登录！')
+                    },
+                    error: function (error) {
+                        showTips('登记信息',error.responseJSON.msg)
+                    }
+                })
+            }else{
+                showTips('登记信息','请填写好信息！！')
+            }
+        }else{
+            showTips('登记信息','参数错误')
+        }
+    });
+    // 点击购买门票登记个人信息
+    $('#confirmSportBtn').click(function () {
+        var name=$('#s_name').val();
+        const ticketId = $(this).attr("ticketId")
+        var idCardNumber=$('#s_idCardNumber').val();
+        var cellPhone=$('#s_cellPhone').val();
+        if(ticketId){
+            if(name&&idCardNumber&&cellPhone){
+                $.ajax({
+                    url: "/touristSpot/checkin",
+                    type: 'POST',
+                    data:{
+                        ticketId,
+                        name,
+                        idCardNumber,
+                        cellPhone
+                    },
+                    headers:{
+                        'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+                    },
+                    cache: false,
+                    success: function (res) {
+                        showTips('登记信息',res.msg)
+                        if(res.code==1){
+                            showModalHide('#spotModal');
+                            setTimeout(()=>{
+                                location.replace(location)
+                            },1000)
+                        }
+                    },
+                    fail: function (res) {
+                        showTips('登记信息',res.msg)
+                    },
+                    error: function (error) {
+                        showTips('登记信息',error.responseJSON.msg)
+                    }
+                })
+            }else{
+                showTips('登记信息','请填写好信息！！')
+            }
+        }else{
+            showTips('登记信息','参数错误')
+        }
+    });
     // 旅游景点门票
     $('.spotTicket').click(function(){
         var Id=getQueryString("id");
         if(Id){
             const that = $(this)
             const ticketId = that.attr("data-ticketid")
+            const status = that.attr("data-status")
+            if(parseInt(status) == 0){
+                // 姓名、身份证号、手机号
+                showModalOpen('#spotModal');
+                $("#confirmSportBtn").attr("ticketId",ticketId)
+                return;
+            }
             $.ajax({
                 url: "/touristSpot/ticket",
                 type: 'POST',
@@ -381,6 +545,127 @@ $(function () {
             showTips('旅游景点门票','地址栏参数错误')
         }
     })
+    // 添加攻略信息按钮
+    $('#myStrategy .addStrategy').click(function(){
+        showModalOpen('#strategyModal');
+        $("#strategyModal .modal-title").text("添加攻略信息")
+        //初始化编辑器
+        $(".markdownbox").markdown({
+            autofocus: true,
+            language: 'zh',
+            content: ''
+        })
+        $('#strategyModal .saveStrategy').attr('is-create',1)
+    })
+    // 编辑攻略信息
+    $('#myStrategy .editStrategy').click(function(){
+        var id=$(this).attr("data-id")
+        $.ajax({
+            url: "/strategy?id="+id,
+            type: 'GET',
+            headers:{
+                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+            },
+            cache: false,
+            success: function (res) {
+                showTips('攻略信息',res.msg)
+                if(res.code==1){
+                    const data = res.data
+                    showModalOpen('#strategyModal');
+                    $("#strategyModal .modal-title").text("编辑攻略信息")
+                    $('#strategyTitle').val(data.Title)
+                    $('#strategyAddress').val(data.Address)
+                    //初始化编辑器
+                    $("#strategyModal .strategyContent").val(data.Content)
+                    $('#strategyModal .saveStrategy').attr('is-create',0).attr('data-id',id)
+                }
+            },
+            fail: function () {
+                alert('编辑失败')
+            },
+            error: function (error) {
+                showTips('攻略信息',error.responseJSON.msg)
+            }
+        })
+    })
+    // 删除攻略信息
+    $('#myStrategy .removeStrategy').click(function(){
+        var id=$(this).attr("data-id")
+        $.ajax({
+            url: "/strategy/delete/"+id,
+            type: 'DELETE',
+            headers:{
+                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+            },
+            cache: false,
+            success: function (res) {
+                showTips('攻略信息',res.msg)
+                if(res.code==1){
+                    setTimeout(()=>{
+                        location.replace(location)
+                    },1000)
+                }
+            },
+            fail: function () {
+                alert('删除失败')
+            },
+            error: function (error) {
+                showTips('攻略信息',error.responseJSON.msg)
+            }
+        })
+    })
+    // 个人信息-攻略信息-保存攻略信息
+    $('#strategyModal .saveStrategy').click(function(){
+        const Title = $('#strategyTitle').val()
+        const Address = $('#strategyAddress').val()
+        const Content = $('.strategyContent').val()
+        const Pictures = {
+            "pictures":[]
+        }
+        const isCreate = $(this).attr('is-create') ==1
+        $.ajax({
+            url: isCreate?"/strategy/insert":"/strategy/update",
+            type: isCreate?'POST':"PUT",
+            data:{
+                Id: $(this).attr('data-id'),
+                Title,
+                Address,
+                Content,
+                Pictures: JSON.stringify(Pictures)
+            },
+            headers:{
+                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+            },
+            cache: false,
+            success: function (res) {
+                showTips('攻略信息',res.msg)
+                if(res.code==1){
+                    showModalHide('#strategyModal');
+                    setTimeout(()=>{
+                        location.replace(location)
+                    },1000)
+                }
+            },
+            fail: function () {
+                showTips('攻略信息','请先登录！')
+            },
+            error: function (error) {
+                showTips('攻略信息',error.responseJSON.msg)
+            }
+        })
+    })
+    // // 个人信息-攻略信息-上传图片
+    // $('#strategyPic').fileinput({
+    //     language: 'zh',
+    //     uploadUrl: '/uploadImg',
+    //     uploadAsync: true,
+    //     allowedFileExtensions: ['jpg', 'png'],
+    //     maxFileCount: 5
+    // });
+    // $('#strategyPic').on('filepreupload', function(XMLHttpRequest) {
+    //     var xmlhttp = new XMLHttpRequest();
+    //     xmlhttp.setRequestHeader("Authorization",'Bearer '+sessionStorage.getItem('webToken'));
+    // });
     // 单品支付
     $('.alipay').click(function(){
         var Id=getQueryString("id");
@@ -475,7 +760,9 @@ $(function () {
                         if(res){
                             showModalHide('#confirmOrder')
                             alert('保存成功~')
-                            location.replace(location)
+                            setTimeout(()=>{
+                                location.replace(location)
+                            },1000)
                         }else{
                             alert('地址保存失败')
                         }
@@ -558,7 +845,9 @@ $(function () {
                         if(res){
                             showModalHide('#confirmOrder')
                             alert('修改成功~')
-                            location.replace(location)
+                            setTimeout(()=>{
+                                location.replace(location)
+                            },1000)
                         }else{
                             alert('地址修改失败')
                         }

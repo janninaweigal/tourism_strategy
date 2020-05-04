@@ -18,29 +18,34 @@ $(function(){
     $('.personInfo .btn-primary').click(function(){
         var that = $(this)
         var avatar=that.parent().find('img').attr('src')
-        $.ajax({
-            url: "/personal/updateImg",
-            type: 'PUT',
-            data:{
-                avatar
-            },
-            headers:{
-                'Authorization':'Bearer '+sessionStorage.getItem('webToken')
-            },
-            cache: false,
-            success: function (res) {
-                if(res.flag){
-                    location.replace(location)
+        if(avatar){
+            $.ajax({
+                url: "/personal/updateImg",
+                type: 'PUT',
+                data:{
+                    avatar
+                },
+                headers:{
+                    'Authorization':'Bearer '+sessionStorage.getItem('webToken')
+                },
+                cache: false,
+                success: function (res) {
+                    if(res.flag){
+                        location.replace(location)
+                    }
+                    alert(res.msg)
+                },
+                fail: function () {
+                    alert('错误,请刷新页面！')
+                },
+                error: function (error) {
+                    alert(error.responseJSON.msg)
                 }
-                alert(res.msg)
-            },
-            fail: function () {
-                alert('错误,请刷新页面！')
-            },
-            error: function (error) {
-                showTips('保存更改',error.responseJSON.msg)
-            }
-        })
+            })
+        } else {
+            alert('请选择头像！')
+        }
+        
     })
     
 })

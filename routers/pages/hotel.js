@@ -19,7 +19,7 @@ router.get('/hotelPage', async(ctx, next) => {
     })
     await userModel.query(`select h.*,min(Price) MinPrice from hotels h left join hotel_room r on r.HotelId = h.Id GROUP BY h.Id limit ${(result.hotel.pageNo-1)*result.hotel.pageSize},${result.hotel.pageSize}`).then(res=>{
         result.hotel.list = res.map(item=>{
-            item.Pictures = JSON.parse(item.Pictures).pictures
+            item.Pictures = item.Pictures?JSON.parse(item.Pictures).pictures:{"pictures":[]}
         　　return item
         })
     })
@@ -34,12 +34,12 @@ router.get('/hotelDetailPage', async(ctx, next) => {
     if(Id){
         await userModel.findHotelById(Id).then(res=>{
             let data = res[0]
-            data.Pictures = JSON.parse(data.Pictures).pictures
+            data.Pictures = data.Pictures?JSON.parse(data.Pictures).pictures:{"pictures":[]}
             result.hotelDetail=res[0];
         })
         await userModel.query(`select * from hotel_room where HotelId = ${Id}`).then(res=>{
             result.hotelRoomDetail=res.map(item=>{
-                item.Pictures = JSON.parse(item.Pictures).pictures
+                item.Pictures = item.Pictures?JSON.parse(item.Pictures).pictures:{"pictures":[]}
             　　return item
             });
         })

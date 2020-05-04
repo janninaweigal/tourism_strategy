@@ -18,7 +18,7 @@ router.get('/touristSpotPage', async(ctx, next) => {
     })
     await userModel.query(`select * from tourist_spots limit ${(result.touristSpot.pageNo-1)*result.touristSpot.pageSize},${result.touristSpot.pageSize}`).then(res=>{
         result.touristSpot.list = res.map(item=>{
-            item.Pictures = JSON.parse(item.Pictures).pictures
+            item.Pictures = item.Pictures?JSON.parse(item.Pictures).pictures:{"pictures":[]}
         　　return item
         })
     })
@@ -34,7 +34,7 @@ router.get('/touristSpotsDetailPage',async(ctx,next)=>{
     if(Id){
         await userModel.findTouristSpotById(Id).then(res=>{
             let data = res[0]
-            data.Pictures = JSON.parse(data.Pictures).pictures
+            data.Pictures = data.Pictures?JSON.parse(data.Pictures).pictures:{"pictures":[]}
             result.touristSpotsDetail=data;
         })
         await userModel.findTouristSpotTicketByTouristSpotId(Id).then(res=>{
@@ -58,6 +58,17 @@ router.post('/touristSpot/list', async(ctx, next) => {
         response.list = res
     })
     ctx.success(response,'查询成功')
+})
+
+router.get('/touristSpot/all', async(ctx, next) => {
+    let response = {
+        list: [],
+        msg: '查询成功'
+    }
+    await userModel.getAllTouristSpot().then(res=>{
+        response.list = res
+    })
+    ctx.success(response.list,response.msg)
 })
 
 router.post('/touristSpot/insert', async(ctx, next) => {
@@ -170,7 +181,10 @@ router.post('/touristSpot/ticket', async(ctx, next) => {
                 if(AppointUserIds.indexOf(userId)==-1){
                     let userIds = AppointUserIds.split(',');
                     userIds.push(userId);
-                    await userModel.updateTicketAppointById([response.data.Num+1,userIds.join(','),touristSpotId]).then(res=>{
+                    const newUserIds = userIds.filter(item=>{
+                        return item!=""
+                    })
+                    await userModel.updateTicketAppointById([response.data.Num+1,newUserIds.join(','),touristSpotId]).then(res=>{
 
                     })
                 } else {
@@ -179,11 +193,69 @@ router.post('/touristSpot/ticket', async(ctx, next) => {
                 }
             }
         } else {
+            // todo
             response.flag = true;
             response.msg = '模拟购买成功'
         }
     }
     response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
 })
+
+// 旅游景点购买门票登记个人信息
+router.post('/touristSpot/checkin', async(ctx, next) => {
+    const params = ctx.request.body
+    const userId = ctx.session.id
+    const name  = params.name
+    const ticketId = params.ticketId
+    const idCardNumber  = params.idCardNumber
+    const cellPhone = params.cellPhone
+    let response = {
+        flag: false,
+        data: null,
+        msg: "购买失败"
+    }
+    if(name&&idCardNumber&&cellPhone&&ticketId){
+        await userModel.findTouristSpotTicketById(ticketId).then(res=>{
+            if(res.length!=1){
+                response.flag = false
+            } else {
+                if(res[0].Num==0){
+                    response.flag = false
+                    response.msg = "票数已卖完"
+                }else{
+                    response.flag = true
+                    response.data= res[0]
+                }
+            }
+        }).catch(error=>{
+            response.flag = false;
+            response.msg = '购买失败,错误原因：'+error
+        })
+        if(response.flag){
+            // 登记过，不能再登记了  ticketId userId
+            await userModel.findTouristSpotTicketOrderCount(userId,ticketId).then(res=>{
+                if(res[0].count==1){
+                    response.flag = false
+                    response.msg = '已经登记过了，无需继续登记'
+                }
+            })
+            // 登记个人信息、并且票数减一
+            if(response.flag){
+                await userModel.insertTouristSpotTicketOrder([ticketId,name,idCardNumber,cellPhone,userId]).then(res=>{
+                    response.flag = true
+                    response.msg = '购买成功'
+                })
+            }
+            if(response.flag){
+                await userModel.updateSpotTicketNumberById(ticketId).then(res=>{
+                    response.flag = true
+                    response.msg = '购买成功'
+                })
+            }
+        }
+    }
+    response.flag?ctx.success(response.data,response.msg):ctx.error(response.msg)
+})
+
 
 module.exports = router

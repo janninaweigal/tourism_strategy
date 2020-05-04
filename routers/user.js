@@ -37,7 +37,7 @@ router.post('/user/insert', async(ctx, next) => {
     })
     if(response.flag && avatar){
         // 上传图片
-        let fileName =getFileName();
+        fileName =getFileName();
         const uploadFlag = await writePhotoFile(avatar,fileName)
         response.flag = uploadFlag
     } else {
@@ -132,7 +132,7 @@ router.put('/personal/updateImg', async(ctx,next)=>{
     const Photo=ctx.request.body.avatar;
     let upload = false;
     const id=ctx.session.id
-    const avatar =ctx.session.avator
+    const avatar =ctx.session.avatar
     if(Photo!=avatar){
         // 上传头像
         let fileName =getFileName();
