@@ -8,7 +8,7 @@ const config = {
         USERNAME: 'linbin',
         PASSWORD: 'jannineweigel@@',
         PORT: '3306',
-        HOST: '111.230.236.23'
+        HOST: 'localhost'
     }
 }
 
